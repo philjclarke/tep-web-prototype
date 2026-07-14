@@ -1,0 +1,44 @@
+---
+// Shared site header + primary nav.
+// Prop `active` highlights the current primary-nav item.
+const { active = '' } = Astro.props;
+const cls = (k) => (active === k ? 'nav-item active' : 'nav-item');
+---
+<div class="util">
+  <div class="container">
+    <div class="left"><span class="dot"></span> Commercial Services Group</div>
+    <div class="right">CREATING IMPACT</div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="container">
+    <a class="logo" href="/"><img src="/tep-logo.png" alt="The Education People" /></a>
+    <a class="search-box" href="/global-search">Search training, resources, services…</a>
+    <nav class="util-nav">
+      <a href="#">About us</a>
+      <a href="#" class="basket"><i class="fa-solid fa-bag-shopping basket-icon"></i>0</a>
+      <a href="#">Log in</a>
+      <a href="#" class="btn-login">Register</a>
+    </nav>
+  </div>
+</div>
+
+<nav class="mainnav">
+  <div class="container">
+    <div class={cls('consultancy')}><a href="#">Consultancy</a></div>
+    <div class={cls('products')}>
+      <a href="#">Products &amp; Resources <i class="fa-solid fa-chevron-down caret"></i></a>
+      <div class="dropdown"><a href="/generic-product">Downloadable resources</a><a href="#">Publications</a><a href="#">E-learning</a><a href="#">Webinars</a><a href="#">Product A–Z</a></div>
+    </div>
+    <div class={cls('training')}>
+      <a href="#">Training &amp; Events <i class="fa-solid fa-chevron-down caret"></i></a>
+      <div class="dropdown"><a href="/search-results">All training</a><a href="#">Conferences</a><a href="/training-product">Courses</a><a href="#">Webinars</a><a href="#">Browse by term</a></div>
+    </div>
+    <div class={cls('knowledge')}>
+      <a href="#">Knowledge Hub <i class="fa-solid fa-chevron-down caret"></i></a>
+      <div class="dropdown"><a href="#">EdHub</a><a href="#">Blog</a><a href="#">FAQs</a><a href="#">Our Services</a></div>
+    </div>
+    <div class={cls('employment')}><a href="#">Supported Employment</a></div>
+  </div>
+</nav>

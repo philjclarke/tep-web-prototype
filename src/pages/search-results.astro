@@ -1,0 +1,254 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Search results — The Education People" active="" header={true} footer={true}>
+
+<style is:global>
+/* ---------- Search Results (page-specific) ---------- */
+  .results-hero { background: linear-gradient(135deg, var(--pink-soft) 0%, var(--lavender-soft) 45%, var(--cyan-soft) 100%); padding: 40px 0 44px; }
+  .results-hero h1 { font-size: 30px; color: var(--purple); margin-bottom: 18px; }
+  .results-hero h1 span { color: var(--ink); }
+  .big-search { background: #fff; border-radius: 16px; padding: 8px 8px 8px 22px; display: flex; align-items: center; gap: 12px; max-width: 720px; box-shadow: 0 16px 40px rgba(65,0,140,0.12); }
+  .big-search .ic { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--purple); position: relative; flex-shrink: 0; }
+  .big-search .ic::after { content: ""; position: absolute; width: 10px; height: 2.5px; background: var(--purple); bottom: -3px; right: -5px; transform: rotate(45deg); }
+  .big-search input { flex: 1; border: 0; outline: 0; font-family: var(--sans); font-size: 16px; color: var(--ink); background: transparent; }
+  .big-search button { background: var(--purple); color: #fff; border: 0; border-radius: 12px; padding: 14px 28px; font-family: var(--sans); font-weight: 600; font-size: 15px; cursor: pointer; }
+
+  .results-layout { display: grid; grid-template-columns: 264px 1fr; gap: 40px; padding: 36px 0 90px; align-items: start; }
+
+  /* filters rail */
+  .filters { position: sticky; top: 20px; border: 1px solid var(--line); border-radius: 16px; padding: 8px 20px 20px; }
+  .filters-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .filters-head h3 { font-size: 16px; color: var(--ink); }
+  .filters-head a { font-size: 13px; color: var(--purple); font-weight: 600; }
+  .fgroup { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .fgroup:last-child { border-bottom: 0; }
+  .fgroup h4 { font-size: 14px; color: var(--ink); margin-bottom: 12px; }
+  .fopt { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--charcoal); padding: 5px 0; cursor: pointer; }
+  .fopt input { appearance: none; width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 5px; flex-shrink: 0; position: relative; cursor: pointer; transition: background-color 0.15s, border-color 0.15s; }
+  .fopt input:checked { background: var(--purple); border-color: var(--purple); }
+  .fopt input:checked::after { content: "\2713"; position: absolute; inset: 0; color: #fff; font-size: 12px; display: grid; place-items: center; }
+  .fopt .count { margin-left: auto; font-size: 12px; color: #9a96a6; }
+  .fopt:hover { color: var(--purple); }
+
+  /* results column */
+  .results-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 16px; flex-wrap: wrap; }
+  .results-count { font-size: 15px; color: var(--charcoal); }
+  .results-count strong { color: var(--ink); }
+  .sort { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--charcoal); }
+  .sort select { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; background: #fff; cursor: pointer; }
+
+  .active-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; background: var(--lavender-soft); color: var(--purple); border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 13px; font-weight: 600; }
+  .chip button { border: 0; background: rgba(65,0,140,0.12); color: var(--purple); width: 18px; height: 18px; border-radius: 50%; cursor: pointer; font-size: 11px; display: grid; place-items: center; }
+  .active-filters .clear { font-size: 13px; color: var(--charcoal); text-decoration: underline; margin-left: 4px; }
+
+  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  /* card CTA row */
+  .card .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+  .card .card-foot .cta { font-weight: 600; font-size: 14px; color: var(--purple); display: inline-flex; align-items: center; gap: 7px; }
+  .card .card-foot .cta i { transition: transform 0.2s ease; }
+  .card:hover .card-foot .cta i { transform: translateX(3px); }
+  .card .card-price { font-weight: 700; color: var(--ink); font-size: 14px; }
+
+  .pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 44px; }
+  .pagination a { min-width: 40px; height: 40px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; color: var(--ink); }
+  .pagination a:hover { border-color: var(--lavender); color: var(--purple); }
+  .pagination a.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+  .pagination a.arrow { color: var(--purple); }
+
+  /* related searches */
+  .related-searches { background: var(--paper); border-top: 1px solid var(--line); padding: 48px 0; }
+  .related-searches h3 { font-size: 18px; color: var(--ink); margin-bottom: 16px; }
+  .related-searches .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .related-searches .chips a { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-size: 14px; font-weight: 500; color: var(--purple); }
+  .related-searches .chips a:hover { border-color: var(--purple); }
+</style>
+
+<!-- ================= RESULTS HERO ================= -->
+<section class="results-hero">
+  <div class="container">
+    <h1>Results for <span>“Safeguarding”</span></h1>
+    <form class="big-search" onsubmit="return false">
+      <span class="ic"></span>
+      <input value="Safeguarding">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<div class="container">
+  <div class="results-layout">
+
+    <!-- FILTERS RAIL -->
+    <aside class="filters">
+      <div class="filters-head"><h3>Filters</h3><a href="#">Clear all</a></div>
+      <div class="fgroup">
+        <h4>Content type</h4>
+        <label class="fopt"><input type="checkbox" checked> Training &amp; Events <span class="count">21</span></label>
+        <label class="fopt"><input type="checkbox"> Products &amp; Resources <span class="count">12</span></label>
+        <label class="fopt"><input type="checkbox"> Services <span class="count">6</span></label>
+        <label class="fopt"><input type="checkbox"> Blogs <span class="count">5</span></label>
+        <label class="fopt"><input type="checkbox"> Knowledge Hub <span class="count">4</span></label>
+      </div>
+      <div class="fgroup">
+        <h4>Audience</h4>
+        <label class="fopt"><input type="checkbox"> Early Years <span class="count">9</span></label>
+        <label class="fopt"><input type="checkbox"> Primary <span class="count">18</span></label>
+        <label class="fopt"><input type="checkbox"> Secondary <span class="count">14</span></label>
+        <label class="fopt"><input type="checkbox"> Governors <span class="count">7</span></label>
+      </div>
+      <div class="fgroup">
+        <h4>Delivery method</h4>
+        <label class="fopt"><input type="checkbox" checked> Online <span class="count">16</span></label>
+        <label class="fopt"><input type="checkbox"> Face-to-face <span class="count">12</span></label>
+        <label class="fopt"><input type="checkbox"> E-learning <span class="count">8</span></label>
+      </div>
+      <div class="fgroup">
+        <h4>Topic</h4>
+        <label class="fopt"><input type="checkbox"> Child protection <span class="count">11</span></label>
+        <label class="fopt"><input type="checkbox"> Safer recruitment <span class="count">6</span></label>
+        <label class="fopt"><input type="checkbox"> Online safety <span class="count">5</span></label>
+        <label class="fopt"><input type="checkbox"> Designated leads <span class="count">4</span></label>
+      </div>
+    </aside>
+
+    <!-- RESULTS -->
+    <div class="results-col">
+      <div class="results-toolbar">
+        <div class="results-count"><strong>48 results</strong> for “Safeguarding”</div>
+        <div class="sort"><span>Sort by</span>
+          <select><option>Relevance</option><option>Newest</option><option>A–Z</option><option>Price: low to high</option></select>
+        </div>
+      </div>
+
+      <div class="active-filters">
+        <span class="chip">Training &amp; Events <button aria-label="Remove">✕</button></span>
+        <span class="chip">Online <button aria-label="Remove">✕</button></span>
+        <a class="clear" href="#">Clear all</a>
+      </div>
+
+      <div class="results-grid">
+        <!-- Training -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span><span class="card-pill right badge badge-sand">Free</span></div>
+          <div class="card-body">
+            <div class="card-type">Webinar</div>
+            <div class="card-title">Designated Safeguarding Lead Refresher</div>
+            <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 3 Jun 2026</div><div class="line"><i class="fa-solid fa-laptop"></i> Online</div></div>
+            <div class="card-foot"><span class="card-price">Free</span><span class="cta">Book now <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Training -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span></div>
+          <div class="card-body">
+            <div class="card-type">Course</div>
+            <div class="card-title">Safer Recruitment in Education</div>
+            <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 22 Sep 2026</div><div class="line"><i class="fa-solid fa-laptop"></i> Online</div></div>
+            <div class="card-foot"><span class="card-price">£95</span><span class="cta">Book now <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Product -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Resource</span><span class="card-pill right badge badge-mint">Popular</span></div>
+          <div class="card-body">
+            <div class="card-type">Downloadable</div>
+            <div class="card-title">Safeguarding Policy Toolkit</div>
+            <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-school"></i> Whole school</div></div>
+            <div class="card-foot"><span class="card-price">£45</span><span class="cta">Buy now <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Service -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Service</span></div>
+          <div class="card-body">
+            <div class="card-type">Consultancy</div>
+            <div class="card-title">Safeguarding Audit &amp; Review</div>
+            <div class="card-meta"><div class="line"><i class="fa-solid fa-user-tie"></i> Expert adviser</div><div class="line"><i class="fa-solid fa-location-dot"></i> On-site or remote</div></div>
+            <div class="card-foot"><span class="card-price">POA</span><span class="cta">Enquire <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Knowledge Hub -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Knowledge Hub</span></div>
+          <div class="card-body">
+            <div class="card-type">Article</div>
+            <div class="card-title">Keeping Children Safe in Education 2026: what's changed</div>
+            <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 7 min read</div><div class="line"><i class="fa-solid fa-tag"></i> Safeguarding</div></div>
+            <div class="card-foot"><span class="card-price"></span><span class="cta">View resource <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Blog -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Blog</span></div>
+          <div class="card-body">
+            <div class="card-type">Blog</div>
+            <div class="card-title">Five ways to strengthen your safeguarding culture</div>
+            <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 4 min read</div><div class="line"><i class="fa-regular fa-calendar"></i> 12 May 2026</div></div>
+            <div class="card-foot"><span class="card-price"></span><span class="cta">Read article <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Training -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span><span class="card-pill right badge badge-sand">New</span></div>
+          <div class="card-body">
+            <div class="card-type">Course</div>
+            <div class="card-title">Online Safety for Primary Schools</div>
+            <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 8 Oct 2026</div><div class="line"><i class="fa-solid fa-location-dot"></i> Ashford</div></div>
+            <div class="card-foot"><span class="card-price">£110</span><span class="cta">Book now <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Product -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1588072432836-e10032774350?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">E-learning</span></div>
+          <div class="card-body">
+            <div class="card-type">On-demand</div>
+            <div class="card-title">Safeguarding Essentials (E-learning)</div>
+            <div class="card-meta"><div class="line"><i class="fa-solid fa-laptop"></i> Self-paced</div><div class="line"><i class="fa-solid fa-clock"></i> ~90 mins</div></div>
+            <div class="card-foot"><span class="card-price">£30</span><span class="cta">Access now <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+        <!-- Service -->
+        <a class="card" href="#">
+          <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Service</span></div>
+          <div class="card-body">
+            <div class="card-type">Support</div>
+            <div class="card-title">Designated Safeguarding Lead Helpline</div>
+            <div class="card-meta"><div class="line"><i class="fa-solid fa-headset"></i> Priority support</div><div class="line"><i class="fa-solid fa-calendar-check"></i> Annual subscription</div></div>
+            <div class="card-foot"><span class="card-price">From £250</span><span class="cta">Learn more <i class="fa-solid fa-arrow-right"></i></span></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="pagination">
+        <a class="arrow" href="#"><i class="fa-solid fa-chevron-left"></i></a>
+        <a class="active" href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">…</a>
+        <a href="#">6</a>
+        <a class="arrow" href="#"><i class="fa-solid fa-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RELATED SEARCHES ================= -->
+<section class="related-searches">
+  <div class="container">
+    <h3>Related searches</h3>
+    <div class="chips">
+      <a href="#">Safer recruitment</a>
+      <a href="#">Designated safeguarding lead</a>
+      <a href="#">Online safety</a>
+      <a href="#">Child protection</a>
+      <a href="#">KCSIE 2026</a>
+      <a href="#">Prevent duty</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER (shared) ================= -->
+
+</Base>

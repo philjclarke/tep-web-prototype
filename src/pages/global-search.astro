@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Search — The Education People" active="" header={false} footer={false}>
+
+<style is:global>
+/* ---------- Global Search overlay (page-specific) ---------- */
+  /* keep header (and its search dropdown) above the nav + dim overlay */
+  .util, .mainnav { position: relative; z-index: 300; }
+  .header { position: relative; z-index: 400; }
+
+  /* active search field + dropdown wrapper */
+  .search-wrap { position: relative; flex: 0 1 520px; }
+  .search-wrap .search-box { flex: none; width: 100%; max-width: none; background: #fff; border-color: var(--purple); color: var(--ink); box-shadow: 0 0 0 4px rgba(65,0,140,0.08); }
+  .search-wrap .search-box .clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; background: var(--paper); color: var(--charcoal); display: grid; place-items: center; font-size: 12px; cursor: pointer; }
+
+  .search-dd { position: absolute; top: calc(100% + 12px); left: 0; z-index: 350; width: 660px; max-width: 90vw; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 34px 80px rgba(26,18,38,0.30); overflow: hidden; }
+  .dd-section { padding: 14px 20px 6px; }
+  .dd-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lavender); margin-bottom: 8px; }
+  .autocomplete a { display: flex; align-items: center; gap: 12px; padding: 9px 8px; border-radius: 10px; color: var(--ink); font-size: 15px; }
+  .autocomplete a:hover { background: var(--paper); }
+  .autocomplete a .ac-ic { color: #b3aec2; font-size: 13px; width: 16px; text-align: center; }
+  .autocomplete a strong { color: var(--purple); font-weight: 700; }
+  .dd-divider { height: 1px; background: var(--line); margin: 6px 0; }
+
+  .sugg { display: flex; gap: 14px; align-items: center; padding: 9px 8px; border-radius: 12px; }
+  .sugg:hover { background: var(--paper); }
+  .sugg .thumb { width: 46px; height: 46px; border-radius: 10px; background-size: cover; background-position: center; flex-shrink: 0; }
+  .sugg .s-body { flex: 1; min-width: 0; }
+  .sugg .s-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--lavender); }
+  .sugg .s-title { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.25; }
+  .sugg .s-meta { font-size: 12px; color: var(--charcoal); }
+  .sugg .s-cta { font-size: 12px; font-weight: 600; color: var(--purple); flex-shrink: 0; }
+
+  .dd-foot { padding: 14px 20px; background: var(--paper); border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .dd-foot .view-all { font-weight: 700; color: var(--purple); display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+  .dd-foot .popular { font-size: 12px; color: var(--charcoal); }
+  .dd-foot .popular a { color: var(--purple); font-weight: 600; }
+
+  /* dim overlay over the page content */
+  .search-overlay { position: fixed; inset: 0; background: rgba(26,18,38,0.42); z-index: 200; }
+
+  /* faint page behind (for context) */
+  .page-behind { padding: 46px 0 90px; }
+  .page-behind .eyebrow { color: var(--lavender); }
+  .page-behind h1 { font-size: 40px; color: var(--purple); margin: 4px 0 24px; }
+  .page-behind .ghost-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+</style>
+
+<!-- ================= HEADER (shared, with active search) ================= -->
+<div class="util"><div class="container"><div class="left"><span class="dot"></span> Commercial Services Group</div><div class="right">CREATING IMPACT</div></div></div>
+<div class="header"><div class="container">
+  <a class="logo" href="#"><img src="/tep-logo.png" alt="The Education People"></a>
+
+  <div class="search-wrap">
+    <div class="search-box">behaviour<span class="clear">✕</span></div>
+
+    <!-- OPEN SEARCH DROPDOWN -->
+    <div class="search-dd">
+      <div class="dd-section">
+        <div class="dd-label">Suggestions</div>
+        <div class="autocomplete">
+          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> management</span></a>
+          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> policy</span></a>
+          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> support &amp; inclusion</span></a>
+        </div>
+      </div>
+
+      <div class="dd-divider"></div>
+
+      <div class="dd-section">
+        <div class="dd-label">Training &amp; Events</div>
+        <a class="sugg" href="#">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=200&q=80&auto=format&fit=crop')"></div>
+          <div class="s-body"><div class="s-type">Course</div><div class="s-title">Managing Behaviour in the Classroom</div><div class="s-meta">12 Nov 2026 · Online · £95</div></div>
+          <span class="s-cta">Book</span>
+        </a>
+        <a class="sugg" href="#">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=200&q=80&auto=format&fit=crop')"></div>
+          <div class="s-body"><div class="s-type">Webinar</div><div class="s-title">Positive Behaviour Support</div><div class="s-meta">3 Jun 2026 · Online · Free</div></div>
+          <span class="s-cta">Book</span>
+        </a>
+      </div>
+
+      <div class="dd-section">
+        <div class="dd-label">Products &amp; Resources</div>
+        <a class="sugg" href="#">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=200&q=80&auto=format&fit=crop')"></div>
+          <div class="s-body"><div class="s-type">Downloadable</div><div class="s-title">Behaviour Policy Template</div><div class="s-meta">PDF + editable · £30</div></div>
+          <span class="s-cta">Buy</span>
+        </a>
+      </div>
+
+      <div class="dd-section">
+        <div class="dd-label">Services &amp; Knowledge Hub</div>
+        <a class="sugg" href="#">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=200&q=80&auto=format&fit=crop')"></div>
+          <div class="s-body"><div class="s-type">Consultancy</div><div class="s-title">Behaviour &amp; Inclusion Review</div><div class="s-meta">Expert adviser · On-site or remote</div></div>
+          <span class="s-cta">Enquire</span>
+        </a>
+        <a class="sugg" href="#">
+          <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&q=80&auto=format&fit=crop')"></div>
+          <div class="s-body"><div class="s-type">Article</div><div class="s-title">Building a whole-school behaviour culture</div><div class="s-meta">Knowledge Hub · 6 min read</div></div>
+          <span class="s-cta">Read</span>
+        </a>
+      </div>
+
+      <div class="dd-foot">
+        <a class="view-all" href="/search-results">View all 32 results for “behaviour” <i class="fa-solid fa-arrow-right"></i></a>
+        <div class="popular">Popular: <a href="#">EYFS</a> · <a href="#">SEND</a> · <a href="#">Safeguarding</a></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="util-nav">
+    <a href="#">About us</a>
+    <a href="#" class="basket"><i class="fa-solid fa-bag-shopping basket-icon"></i>0</a>
+    <a href="#">Log in</a>
+    <a href="#" class="btn-login">Register</a>
+  </nav>
+</div></div>
+<nav class="mainnav"><div class="container">
+  <div class="nav-item"><a href="#">Consultancy</a></div>
+  <div class="nav-item"><a href="#">Products &amp; Resources <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">Downloadable resources</a><a href="#">Publications</a><a href="#">E-learning</a><a href="#">Webinars</a><a href="#">Product A–Z</a></div></div>
+  <div class="nav-item"><a href="#">Training &amp; Events <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">All training</a><a href="#">Conferences</a><a href="#">Courses</a><a href="#">Webinars</a><a href="#">Browse by term</a></div></div>
+  <div class="nav-item"><a href="#">Knowledge Hub <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">EdHub</a><a href="#">Blog</a><a href="#">FAQs</a><a href="#">Our Services</a></div></div>
+  <div class="nav-item"><a href="#">Supported Employment</a></div>
+</div></nav>
+
+<!-- ================= DIM OVERLAY ================= -->
+<div class="search-overlay"></div>
+
+<!-- ================= FAINT PAGE BEHIND (context) ================= -->
+<div class="page-behind">
+  <div class="container">
+    <div class="eyebrow">Training &amp; Events</div>
+    <h1>Popular courses this term</h1>
+    <div class="ghost-grid">
+      <div class="card"><div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')"></div><div class="card-body"><div class="card-type">Course</div><div class="card-title">New to EYFS — Reception</div><div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 7 Jul 2026</div></div></div></div>
+      <div class="card"><div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80&auto=format&fit=crop')"></div><div class="card-body"><div class="card-type">Conference</div><div class="card-title">Writing in Action</div><div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 8 Jul 2026</div></div></div></div>
+      <div class="card"><div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80&auto=format&fit=crop')"></div><div class="card-body"><div class="card-type">Conference</div><div class="card-title">Primary English Conference</div><div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 15 Oct 2026</div></div></div></div>
+      <div class="card"><div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80&auto=format&fit=crop')"></div><div class="card-body"><div class="card-type">Webinar</div><div class="card-title">Safeguarding Refresher</div><div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 3 Jun 2026</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+</Base>

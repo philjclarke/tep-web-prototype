@@ -1,0 +1,1000 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="The Education People — Home" active="" header={true} footer={true}>
+
+<style is:global>
+/* ============================================================
+     VARIANT D — BLEND
+     - Hero: lighter ombre, CTA pair (no search), montage
+     - Audience: 6 sector cards inc. Employment Support
+     - Discover: combined featured tile + tabbed cards
+     - Supported Employment: standalone bar
+     - Stats + Testimonial: combined, light background
+     - Why TEP / overview: retained
+     ============================================================ */
+
+  :root {
+    --purple: #41008C;
+    --purple-deep: #2C0061;
+    --charcoal: #393E4B;
+    --lavender: #9A6DD3;
+    --lavender-soft: #EDE2FA;
+    --cyan: #A6ECF4;
+    --cyan-soft: #DAF8FB;
+    --mint: #CCFFCC;
+    --mint-soft: #E8FFE8;
+    --pink: #F8D4FC;
+    --pink-soft: #FCE7FD;
+    --sand: #FCECAC;
+    --sand-soft: #FEF6D6;
+    --ink: #1A1226;
+    --paper: #FAFAFC;
+    --line: #E5E5EC;
+    /* single neutral typeface for now — final type TBC with brand guidance */
+    --serif: "Figtree", system-ui, -apple-system, sans-serif;
+    --sans: "Figtree", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: white;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 700; letter-spacing: -0.015em; line-height: 1.05; color: var(--purple); }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* ============================================================
+     TOP UTILITY + HEADER + MAIN NAV (carried over)
+     ============================================================ */
+  /* thin parent-company utility strip (kept minimal, not purple) */
+  .util { background: var(--ink); color: white; font-size: 12px; padding: 8px 0; }
+  .util .container { display: flex; justify-content: space-between; align-items: center; }
+  .util .left { display: flex; align-items: center; gap: 9px; opacity: 0.85; }
+  .util .dot { width: 15px; height: 15px; border-radius: 50%; background: white; }
+  .util .right { font-weight: 600; letter-spacing: 0.08em; font-size: 11px; opacity: 0.85; }
+
+  /* main header — light, spacious */
+  .header { background: white; padding: 22px 0; }
+  .header .container { display: flex; align-items: center; gap: 32px; }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo img { height: 50px; width: auto; display: block; }
+  .search-box {
+    flex: 0 1 460px; max-width: 460px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+    padding: 12px 22px 12px 46px;
+    position: relative; color: #8a869a; font-size: 14px;
+    transition: border-color 0.2s ease;
+  }
+  .search-box:hover { border-color: var(--lavender); }
+  .search-box::before {
+    content: ""; position: absolute; left: 19px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--purple);
+  }
+  .search-box::after {
+    content: ""; position: absolute; left: 31px; top: 26px;
+    width: 8px; height: 2px; background: var(--purple); transform: rotate(45deg);
+  }
+  .util-nav { display: flex; gap: 22px; align-items: center; font-size: 14px; margin-left: auto; }
+  .util-nav > a { color: var(--ink); font-weight: 500; transition: color 0.15s ease; }
+  .util-nav > a:hover { color: var(--purple); }
+  .util-nav .basket { display: inline-flex; align-items: center; gap: 7px; }
+  .util-nav .basket-icon { color: var(--ink); font-size: 16px; }
+  .btn-login {
+    background: var(--purple); color: white;
+    padding: 11px 26px; border-radius: 999px;
+    font-weight: 600; font-size: 14px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .util-nav > a.btn-login, .util-nav > a.btn-login:hover { color: #fff; }
+  .btn-login:hover { background: var(--purple-deep); transform: translateY(-1px); }
+
+  /* primary nav — white, un-boxed, active underline, dropdowns */
+  .mainnav { background: white; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; z-index: 100; }
+  .mainnav .container { display: flex; gap: 4px; }
+  .nav-item { position: relative; }
+  .nav-item > a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 17px 18px; font-size: 15px; font-weight: 600; color: var(--ink);
+    border-bottom: 3px solid transparent; margin-bottom: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .nav-item > a:hover { color: var(--purple); }
+  .nav-item.active > a { color: var(--purple); border-bottom-color: var(--purple); }
+  .nav-item .caret { font-size: 10px; opacity: 0.7; transition: transform 0.2s ease; }
+  .nav-item:hover .caret, .nav-item:focus-within .caret { transform: rotate(180deg); }
+
+  /* lightweight dropdown flyout (content-light by design) */
+  .dropdown {
+    position: absolute; top: 100%; left: 6px; min-width: 236px;
+    background: white; border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 22px 44px rgba(65,0,140,0.12);
+    padding: 10px; margin-top: 6px;
+    opacity: 0; visibility: hidden; transform: translateY(8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  }
+  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown a { display: block; padding: 10px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--charcoal); transition: background-color 0.15s ease, color 0.15s ease; }
+  .dropdown a:hover { background: var(--paper); color: var(--purple); }
+
+  /* ============================================================
+     HERO — lighter ombre, CTA pair, no search bar
+     ============================================================ */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0 120px;
+    background: linear-gradient(135deg,
+      var(--pink-soft) 0%,
+      var(--pink) 22%,
+      var(--lavender-soft) 45%,
+      var(--cyan-soft) 65%,
+      var(--cyan) 82%,
+      var(--mint-soft) 100%
+    );
+  }
+  .hero .container { position: relative; z-index: 5; display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; }
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: 80px;
+    font-weight: 600;
+    line-height: 1.0;
+    margin-bottom: 28px;
+    letter-spacing: -0.04em;
+    color: var(--lavender);
+  }
+  .hero h1 em { font-style: normal; color: var(--purple); font-weight: 800; padding-right: 6px; }
+  .hero .lead {
+    font-size: 21px; line-height: 1.5;
+    color: var(--charcoal);
+    margin-bottom: 38px;
+    max-width: 520px;
+  }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; }
+  .btn-primary {
+    background: var(--purple); color: white;
+    padding: 16px 32px; border-radius: 999px;
+    font-weight: 600; font-size: 16px;
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 2px solid var(--purple);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(65,0,140,0.28); background: var(--purple-deep); border-color: var(--purple-deep); }
+  .btn-primary::after { content: "→"; font-size: 18px; transition: transform 0.2s ease; }
+  .btn-primary:hover::after { transform: translateX(4px); }
+  .btn-ghost {
+    background: transparent; color: var(--purple);
+    border: 2px solid var(--purple);
+    padding: 14px 28px; border-radius: 999px;
+    font-weight: 600; font-size: 16px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .btn-ghost:hover { transform: translateY(-3px); background: var(--purple); color: white; box-shadow: 0 14px 28px rgba(65,0,140,0.20); }
+  .btn-ghost::after { content: "→"; font-size: 18px; transition: transform 0.2s ease; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+  .tags {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .tags-label { font-size: 14px; color: var(--charcoal); }
+  .tag {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(65,0,140,0.15);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px; color: var(--purple); font-weight: 500;
+  }
+
+  /* Hero — circular photo over slowly-drifting brand circles */
+  .montage { position: relative; height: 540px; }
+
+  /* drifting background circles (different colours / blends / opacities) */
+  .hero-blob { position: absolute; border-radius: 50%; will-change: transform; }
+  .hero-blob.b1 { width: 340px; height: 340px; background: var(--cyan);          top: -60px;    right: -60px;  opacity: 0.55; mix-blend-mode: multiply; animation: drift1 17s ease-in-out infinite; }
+  .hero-blob.b2 { width: 250px; height: 250px; background: var(--mint);          top: 30px;     right: -130px; opacity: 0.70; mix-blend-mode: multiply; animation: drift2 21s ease-in-out infinite; }
+  .hero-blob.b3 { width: 430px; height: 430px; background: var(--cyan);          bottom: -140px; left: -70px;  opacity: 0.45; mix-blend-mode: multiply; animation: drift3 23s ease-in-out infinite; }
+  .hero-blob.b4 { width: 300px; height: 300px; background: var(--lavender-soft); bottom: -100px; right: -140px; opacity: 0.65; mix-blend-mode: multiply; animation: drift4 19s ease-in-out infinite; }
+  .hero-blob.b5 { width: 170px; height: 170px; background: var(--pink);          top: 150px;    left: 0px;     opacity: 0.55; mix-blend-mode: multiply; animation: drift5 15s ease-in-out infinite; }
+
+  @keyframes drift1 { 0%,100% { transform: translate(0,0); }     50% { transform: translate(18px, 14px); } }
+  @keyframes drift2 { 0%,100% { transform: translate(0,0); }     50% { transform: translate(-22px, 18px); } }
+  @keyframes drift3 { 0%,100% { transform: translate(0,0); }     50% { transform: translate(22px, -16px); } }
+  @keyframes drift4 { 0%,100% { transform: translate(0,0); }     50% { transform: translate(-16px, -22px); } }
+  @keyframes drift5 { 0%,100% { transform: translate(0,0); }     50% { transform: translate(14px, 22px); } }
+  @media (prefers-reduced-motion: reduce) { .hero-blob { animation: none !important; } }
+
+  /* circular hero photo (placeholder — to be replaced) */
+  .hero-photo {
+    position: absolute;
+    width: 580px; height: 580px;
+    top: 50%; right: -10px;
+    transform: translateY(-50%);
+    background: url("/hero-circle.png") center/contain no-repeat;
+    z-index: 5;
+  }
+
+  /* ============================================================
+     SECTION HELPERS
+     ============================================================ */
+  section.block { padding: 100px 0; }
+  .eyebrow {
+    font-family: var(--sans); font-weight: 600;
+    font-size: 13px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lavender);
+    margin-bottom: 5px;
+  }
+  .section-head { max-width: 720px; margin-bottom: 48px; }
+  .section-head h2 { font-size: 52px; letter-spacing: -0.025em; }
+  .section-head .lead { font-size: 18px; color: var(--charcoal); margin-top: 16px; line-height: 1.55; }
+  .center { text-align: center; margin-left: auto; margin-right: auto; }
+
+  /* ============================================================
+     AUDIENCE — 6 sector cards inc. Employment Support
+     ============================================================ */
+  .audience { background: white; }
+  .audience .container { max-width: 1360px; }
+
+  /* expanding image accordion — equal at rest, focus-driven expansion */
+  .accordion { display: flex; gap: 12px; height: 460px; }
+  .acc-panel {
+    position: relative; flex: 1 1 0; min-width: 0;
+    border-radius: 14px; overflow: hidden;
+    text-decoration: none;
+    transition: flex-grow 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .acc-panel:hover, .acc-panel:focus-visible, .acc-panel:focus-within { flex-grow: 3.6; outline: none; }
+  .acc-panel .img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.6s ease;
+  }
+  .acc-panel:hover .img, .acc-panel:focus-within .img { transform: scale(1.05); }
+  .acc-panel .grad {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,18,38,0) 30%, rgba(26,18,38,0.4) 62%, rgba(26,18,38,0.86) 100%);
+  }
+  .acc-panel .content { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px; color: white; min-height: 122px; }
+  .acc-panel .acc-bar { width: 38px; height: 5px; border-radius: 999px; background: var(--acc); margin-bottom: 12px; }
+  .acc-panel h4 { font-family: var(--sans); font-weight: 700; font-size: 18px; color: white; line-height: 1.15; letter-spacing: -0.01em; }
+  .acc-panel .sub { font-size: 13px; opacity: 0.85; margin-top: 3px; }
+  .acc-panel .detail {
+    font-size: 14px; line-height: 1.5; max-width: 340px;
+    opacity: 0; max-height: 0; margin-top: 0; overflow: hidden;
+    transition: opacity 0.3s ease 0.08s, max-height 0.35s ease, margin-top 0.35s ease;
+  }
+  .acc-panel:hover .detail, .acc-panel:focus-within .detail { opacity: 0.92; max-height: 84px; margin-top: 10px; }
+  .acc-panel .explore {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 14px; color: white;
+    opacity: 0; transform: translateY(6px); margin-top: 0;
+    transition: opacity 0.3s ease 0.14s, transform 0.3s ease 0.14s, margin-top 0.35s ease;
+  }
+  .acc-panel:hover .explore, .acc-panel:focus-within .explore { opacity: 1; transform: translateY(0); margin-top: 14px; }
+  .acc-panel .explore i { color: var(--acc); }
+
+  /* mobile fallback — stack the panels (no hover on touch) */
+  @media (max-width: 900px) {
+    .accordion { flex-direction: column; height: auto; }
+    .acc-panel { flex: none; height: 150px; }
+    .acc-panel .detail, .acc-panel .explore { opacity: 1; max-height: none; margin-top: 8px; transform: none; }
+  }
+
+  /* ============================================================
+     DISCOVER — combined featured tile + tabbed cards
+     ============================================================ */
+  .discover {
+    background: var(--paper);
+    position: relative;
+  }
+  /* let the Discover heading run full width; keep the sub-para constrained */
+  .discover .section-head { max-width: none; }
+  .discover .section-head .lead { max-width: 720px; }
+  /* featured tile (lead editorial) */
+  /* featured item — light card (no purple panel); prominence via scale + imagery */
+  .feat-tile {
+    background: white;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    min-height: 384px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    margin-bottom: 48px;
+    box-shadow: 0 24px 50px rgba(65,0,140,0.08);
+  }
+  .feat-tile .img {
+    background-image: url("https://images.unsplash.com/photo-1509062522246-3755977927d7?w=900&q=80&auto=format&fit=crop");
+    background-size: cover; background-position: center;
+  }
+  .feat-tile .body {
+    padding: 52px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, var(--sand-soft) 100%);
+  }
+  .feat-tile .badge {
+    display: inline-block;
+    background: var(--sand); color: var(--ink);
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 18px;
+    align-self: flex-start;
+  }
+  .feat-tile h3 { font-size: 42px; line-height: 1.0; margin-bottom: 16px; color: var(--purple); max-width: 90%; }
+  .feat-tile p { font-size: 17px; color: var(--charcoal); margin-bottom: 24px; line-height: 1.5; max-width: 92%; }
+  .feat-tile .meta-line { font-size: 14px; color: var(--charcoal); margin-bottom: 28px; display: flex; gap: 20px; flex-wrap: wrap; }
+  .feat-tile .meta-line span { display: inline-flex; align-items: center; gap: 8px; }
+  .feat-tile .meta-line i { color: var(--purple); font-size: 14px; width: 14px; text-align: center; }
+  .feat-tile .btn-feat {
+    background: var(--purple); color: white;
+    padding: 14px 28px; border-radius: 999px;
+    font-weight: 700; font-size: 15px;
+    align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .feat-tile .btn-feat:hover { background: var(--purple-deep); transform: translateY(-2px); }
+  .feat-tile .btn-feat::after { content: "→"; }
+
+  /* tabs */
+  .tabs {
+    display: inline-flex; gap: 2px;
+    background: white; border-radius: 999px;
+    padding: 4px;
+    margin: 0 auto 32px;
+    width: fit-content;
+    box-shadow: 0 2px 12px rgba(65,0,140,0.07);
+  }
+  .tabs a {
+    padding: 8px 20px; border-radius: 999px;
+    font-size: 14px; font-weight: 600;
+    color: var(--charcoal);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .tabs a:hover { color: var(--purple); }
+  .tabs a.active { background: var(--purple); color: white; }
+  .tabs a.active:hover { color: white; }
+
+  .tabs-wrap { text-align: center; }
+
+  /* cards — light (no purple fill); purple used for title + accents */
+  .courses { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .course-card {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .course-card:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(65,0,140,0.10); border-color: transparent; }
+  .course-card .img { height: 180px; background-size: cover; background-position: center; position: relative; }
+  .course-card .body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+  .course-card h4 { font-family: var(--sans); font-weight: 700; font-size: 18px; line-height: 1.25; margin-bottom: 14px; color: var(--purple); letter-spacing: -0.01em; }
+  .meta { font-size: 13px; color: var(--charcoal); display: grid; gap: 8px; margin-top: auto; }
+  .meta .line { display: flex; align-items: center; gap: 10px; }
+  .meta .line i { color: var(--purple); font-size: 13px; width: 14px; text-align: center; flex-shrink: 0; }
+  .pill {
+    position: absolute; top: 14px; left: 14px;
+    background: white; color: var(--purple);
+    padding: 5px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(26,18,38,0.12);
+  }
+  .pill.right { left: auto; right: 14px; background: var(--sand); color: var(--ink); box-shadow: none; }
+
+  .discover-foot { margin-top: 36px; text-align: center; }
+
+  /* ============================================================
+     SUPPORTED EMPLOYMENT — standalone bar (B's treatment)
+     ============================================================ */
+  /* Beyond Education — light pastel ombre + circles, dark text */
+  .spotlight {
+    background: linear-gradient(135deg, var(--pink-soft) 0%, var(--lavender-soft) 30%, var(--cyan-soft) 70%, var(--mint-soft) 100%);
+    color: var(--charcoal);
+    position: relative; overflow: hidden;
+  }
+  .spotlight::before {
+    content: ""; position: absolute;
+    width: 480px; height: 480px; border-radius: 50%;
+    background: var(--pink); opacity: 0.4;
+    left: -160px; bottom: -160px;
+  }
+  .spotlight::after {
+    content: ""; position: absolute;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: var(--lavender-soft); opacity: 0.55;
+    right: -100px; top: -100px;
+  }
+  .spotlight .container { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .spotlight .eyebrow { color: var(--purple); }
+  .spotlight h2 { color: var(--purple); font-size: 52px; margin-bottom: 24px; }
+  .spotlight p { font-size: 18px; color: var(--charcoal); margin-bottom: 28px; line-height: 1.6; }
+  .spotlight-img {
+    height: 440px;
+    border-radius: 200px 30px 30px 200px;
+    background-size: cover; background-position: center;
+    background-image: url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&auto=format&fit=crop");
+    box-shadow: 0 30px 60px rgba(65,0,140,0.18);
+  }
+  .spotlight .btn-light {
+    background: var(--purple); color: white;
+    padding: 16px 32px; border-radius: 999px;
+    font-weight: 700; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .spotlight .btn-light:hover { background: var(--purple-deep); transform: translateY(-2px); }
+  .spotlight .btn-light::after { content: "→"; }
+
+  /* ============================================================
+     TRUST — combined stats + testimonial, light gradient
+     ============================================================ */
+  .trust {
+    background: var(--paper);
+    padding: 100px 0;
+    position: relative; overflow: hidden;
+  }
+  .trust .container { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+  .trust-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 48px; }
+  .trust-stat .num { font-family: var(--serif); font-weight: 700; font-size: 64px; color: var(--purple); line-height: 1; letter-spacing: -0.02em; }
+  .trust-stat .label { font-weight: 600; font-size: 16px; color: var(--ink); margin-top: 10px; }
+  .trust-stat .desc { font-size: 13px; color: var(--charcoal); margin-top: 4px; }
+  .trust-quote {
+    background: white;
+    border-radius: 28px;
+    padding: 44px 38px 38px;
+    box-shadow: 0 12px 36px rgba(65,0,140,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  /* oversized decorative quotation mark */
+  .trust-quote .mark {
+    position: absolute;
+    top: -4px; left: 26px;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 150px;
+    line-height: 1;
+    color: var(--cyan);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .trust-quote .q, .trust-quote .who { position: relative; z-index: 1; }
+  .trust-quote .q { font-family: var(--serif); font-size: 24px; line-height: 1.35; color: var(--ink); margin-bottom: 24px; margin-top: 18px; font-weight: 500; }
+  .trust-quote .who { display: flex; align-items: center; gap: 14px; }
+  .trust-quote .av { width: 56px; height: 56px; border-radius: 50%; background-size: cover; background-position: center; flex-shrink: 0; }
+  .trust-quote .name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .trust-quote .role { font-size: 13px; color: var(--charcoal); }
+
+  /* ============================================================
+     WHY TEP — brand overview, retained
+     ============================================================ */
+  /* Why TEP — lighter, compact, less dominant (no full-width purple) */
+  .why {
+    background: linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+    color: var(--ink);
+    position: relative; overflow: hidden;
+    padding: 78px 0;
+  }
+  .why::before {
+    content: ""; position: absolute;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: var(--lavender-soft); opacity: 0.4;
+    right: -140px; top: -140px;
+  }
+  .why::after {
+    content: ""; position: absolute;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: var(--cyan-soft); opacity: 0.5;
+    left: -100px; bottom: -100px;
+  }
+  .why .container { position: relative; z-index: 2; }
+  .why-head { max-width: 720px; margin-bottom: 40px; }
+  .why-head .eyebrow { color: var(--lavender); }
+  .why-head h2 { font-size: 44px; color: var(--purple); }
+  .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px 48px; margin-bottom: 40px; }
+  .why-item .icon-circle {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--lavender-soft);
+    display: grid; place-items: center;
+    margin-bottom: 14px;
+    border: 0;
+  }
+  .why-item .icon-circle i { font-size: 18px; color: var(--purple); }
+  .why-item h4 { font-family: var(--sans); font-weight: 700; font-size: 17px; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .why-item p { font-size: 14px; color: var(--charcoal); line-height: 1.5; opacity: 1; }
+  .why-cta {
+    background: var(--purple); color: white;
+    padding: 15px 32px; border-radius: 999px;
+    font-weight: 600; font-size: 15px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .why-cta:hover { background: var(--purple-deep); transform: translateY(-2px); }
+  .why-cta::after { content: "→"; }
+
+  /* ============================================================
+     NEWSLETTER + FOOTER (carried over)
+     ============================================================ */
+  /* ===== Modern footer (light, integrated newsletter) ===== */
+  .site-footer { background: linear-gradient(180deg, #FFFFFF 0%, var(--paper) 55%); padding: 40px 0; }
+
+  /* ombre newsletter / CTA card */
+  .footer-cta {
+    background: linear-gradient(120deg, var(--pink-soft) 0%, var(--lavender-soft) 38%, var(--cyan-soft) 72%, var(--mint-soft) 100%);
+    border-radius: 32px;
+    padding: 54px 56px;
+    display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+    position: relative; overflow: hidden;
+    margin-bottom: 72px;
+  }
+  .footer-cta::before {
+    content: ""; position: absolute;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: var(--pink); opacity: 0.35;
+    right: -80px; top: -110px;
+  }
+  .footer-cta > * { position: relative; z-index: 1; }
+  .footer-cta h3 { font-family: var(--serif); font-size: 38px; color: var(--purple); letter-spacing: -0.02em; margin-bottom: 10px; }
+  .footer-cta p { font-size: 16px; color: var(--charcoal); max-width: 460px; }
+  .footer-cta .news-form {
+    background: white; border-radius: 999px; padding: 7px 7px 7px 8px;
+    display: flex; align-items: center; box-shadow: 0 12px 30px rgba(65,0,140,0.12);
+    width: 460px; max-width: 100%;
+  }
+  .footer-cta .news-form input { flex: 1; border: 0; outline: 0; padding: 12px 20px; font-family: var(--sans); font-size: 15px; color: var(--ink); background: transparent; }
+  .footer-cta .news-form button {
+    background: var(--purple); color: white; border: 0; border-radius: 999px;
+    padding: 13px 26px; font-family: var(--sans); font-weight: 600; font-size: 15px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+    transition: background-color 0.2s ease;
+  }
+  .footer-cta .news-form button:hover { background: var(--purple-deep); }
+
+  /* main footer body */
+  .footer-main { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+  .footer-brand img { height: 50px; margin-bottom: 20px; display: block; }
+  .footer-brand p { font-size: 14px; color: var(--charcoal); line-height: 1.6; max-width: 300px; margin-bottom: 22px; }
+  .footer-social { display: flex; gap: 10px; }
+  .footer-social a {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--lavender-soft); color: var(--purple);
+    display: grid; place-items: center; font-size: 16px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .footer-social a:hover { background: var(--purple); color: white; transform: translateY(-2px); }
+  .footer-col h5 { font-family: var(--sans); font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 16px; letter-spacing: 0.02em; }
+  .footer-col ul { list-style: none; display: grid; gap: 10px; }
+  .footer-col a { color: var(--charcoal); font-size: 14px; transition: color 0.15s ease; }
+  .footer-col a:hover { color: var(--purple); }
+  .footer-bottom {
+    border-top: 1px solid var(--line); padding-top: 26px;
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    color: #7A7688; font-size: 13px; flex-wrap: wrap;
+  }
+  .footer-bottom .legal { display: flex; gap: 22px; flex-wrap: wrap; }
+  .footer-bottom .legal a { color: #7A7688; }
+  .footer-bottom .legal a:hover { color: var(--purple); }
+
+  /* marker */
+  .marker {
+    position: fixed; bottom: 18px; right: 18px; z-index: 999;
+    background: var(--ink); color: white;
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+</style>
+
+<!-- ====================== HERO (lighter ombre, CTA pair, no search) ====================== -->
+<section class="hero">
+  <div class="container">
+    <div>
+      <h1>Helping every <em>educator</em> thrive.</h1>
+      <p class="lead">From early years through to employment beyond. We're here to support the people who shape lives — with practical training, expert consultancy and resources you can trust.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#">View all training</a>
+        <a class="btn-ghost" href="#">Explore the Knowledge Hub</a>
+      </div>
+      <div class="tags">
+        <span class="tags-label">Popular:</span>
+        <span class="tag">EYFS</span>
+        <span class="tag">Safeguarding</span>
+        <span class="tag">Leadership</span>
+        <span class="tag">SEND</span>
+        <span class="tag">Attendance</span>
+      </div>
+    </div>
+    <div class="montage">
+      <span class="hero-blob b1"></span>
+      <span class="hero-blob b2"></span>
+      <span class="hero-blob b3"></span>
+      <span class="hero-blob b4"></span>
+      <span class="hero-blob b5"></span>
+      <div class="hero-photo"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== AUDIENCE (6 cards) ====================== -->
+<section class="block audience">
+  <div class="container">
+    <div class="section-head center">
+      <div class="eyebrow">Who we work with</div>
+      <h2>Support for every stage of life.</h2>
+      <p class="lead">From the very first years of learning, through schools and higher education, into employment beyond. One trusted partner across the journey.</p>
+    </div>
+
+    <div class="accordion">
+      <a class="acc-panel" href="#" style="--acc: var(--mint)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Early Years</h4>
+          <div class="sub">Ages 0–5</div>
+          <p class="detail">Training, resources and expert support for the earliest years of a child's learning.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Primary Schools</h4>
+          <div class="sub">Ages 4–11</div>
+          <p class="detail">Practical CPD, curriculum support and school-improvement services for primary settings.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--lavender)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Secondary Schools</h4>
+          <div class="sub">Ages 11–19</div>
+          <p class="detail">Leadership, safeguarding and subject expertise for secondary schools and trusts.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--pink)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Higher Education</h4>
+          <div class="sub">Ages 19+</div>
+          <p class="detail">Professional development and consultancy for colleges and higher education.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--sand)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Local Authorities</h4>
+          <div class="sub">&amp; Businesses</div>
+          <p class="detail">Trusted partnerships, training and services for local authorities and employers.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Employment Support</h4>
+          <div class="sub">Adults seeking work</div>
+          <p class="detail">Helping adults facing barriers move into meaningful, sustainable employment.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== DISCOVER (combined featured + tabs) ====================== -->
+<section class="block discover">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Discover</div>
+      <h2>Featured this term — and what's on now.</h2>
+      <p class="lead">A weekly editor's pick, plus quick access to upcoming training, resources, events and the latest from the Knowledge Hub.</p>
+    </div>
+
+    <!-- Featured tile -->
+    <a class="feat-tile" href="#">
+      <div class="img"></div>
+      <div class="body">
+        <span class="badge">Editor's pick · Conference</span>
+        <h3>Primary English Conference 2026</h3>
+        <p>Join hundreds of teachers and leaders for a day of practical sessions, expert speakers and ideas you can take straight back to the classroom.</p>
+        <div class="meta-line">
+          <span><i class="fa-regular fa-calendar"></i> 15 October 2026</span>
+          <span><i class="fa-solid fa-location-dot"></i> Ashford</span>
+          <span><i class="fa-regular fa-clock"></i> 8:15am — 3:45pm</span>
+        </div>
+        <span class="btn-feat">Reserve a place</span>
+      </div>
+    </a>
+
+    <!-- Tabs -->
+    <div class="tabs-wrap">
+      <div class="tabs">
+        <a class="active" href="#">Training</a>
+        <a href="#">Resources</a>
+        <a href="#">Events</a>
+        <a href="#">Knowledge Hub</a>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="courses">
+      <a class="course-card" href="#">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')">
+          <span class="pill">Training</span>
+          <span class="pill right">In package</span>
+        </div>
+        <div class="body">
+          <h4>New to EYFS — Getting Ready for a Year in Reception</h4>
+          <div class="meta">
+            <div class="line"><i class="fa-regular fa-calendar"></i> 7 July 2026</div>
+            <div class="line"><i class="fa-regular fa-clock"></i> 1pm to 4pm</div>
+            <div class="line"><i class="fa-solid fa-location-dot"></i> Online</div>
+          </div>
+        </div>
+      </a>
+      <a class="course-card" href="#">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80&auto=format&fit=crop')">
+          <span class="pill">Conference</span>
+          <span class="pill right">Popular</span>
+        </div>
+        <div class="body">
+          <h4>Writing in Action: Securing Strong Foundations in Reception</h4>
+          <div class="meta">
+            <div class="line"><i class="fa-regular fa-calendar"></i> 8 July 2026</div>
+            <div class="line"><i class="fa-regular fa-clock"></i> 9:15am to 12:30pm</div>
+            <div class="line"><i class="fa-solid fa-location-dot"></i> Aylesford</div>
+          </div>
+        </div>
+      </a>
+      <a class="course-card" href="#">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80&auto=format&fit=crop')">
+          <span class="pill">Webinar</span>
+          <span class="pill right">Free</span>
+        </div>
+        <div class="body">
+          <h4>Designated Safeguarding Lead Refresher (DSLR)</h4>
+          <div class="meta">
+            <div class="line"><i class="fa-regular fa-calendar"></i> 3 June 2026</div>
+            <div class="line"><i class="fa-regular fa-clock"></i> 9:30am to 4:30pm</div>
+            <div class="line"><i class="fa-solid fa-location-dot"></i> Gravesend</div>
+          </div>
+        </div>
+      </a>
+      <a class="course-card" href="#">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80&auto=format&fit=crop')">
+          <span class="pill">Training</span>
+          <span class="pill right">New</span>
+        </div>
+        <div class="body">
+          <h4>SEND Leaders — Strategic Practice for 2026</h4>
+          <div class="meta">
+            <div class="line"><i class="fa-regular fa-calendar"></i> 22 September 2026</div>
+            <div class="line"><i class="fa-regular fa-clock"></i> 9:30am to 3:30pm</div>
+            <div class="line"><i class="fa-solid fa-location-dot"></i> Online</div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="discover-foot">
+      <a class="btn-ghost" href="#">View all training &amp; events</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== SUPPORTED EMPLOYMENT (standalone) ====================== -->
+<section class="block spotlight">
+  <div class="container">
+    <div>
+      <div class="eyebrow">Beyond education</div>
+      <h2>Helping adults find meaningful work.</h2>
+      <p>Through our DWP-funded Connect to Work programme and a network of expert advisers, we support adults facing barriers into sustainable employment — extending our mission beyond the classroom and into the wider community.</p>
+      <a class="btn-light" href="#">Discover Supported Employment</a>
+    </div>
+    <div class="spotlight-img"></div>
+  </div>
+</section>
+
+<!-- ====================== TRUST (combined stats + testimonial, light) ====================== -->
+<section class="trust">
+  <div class="container">
+    <div>
+      <div class="eyebrow" style="color:var(--purple)">Trusted partner</div>
+      <h2 style="font-size:48px;color:var(--ink);letter-spacing:-0.025em;margin-bottom:48px;">Expertise behind every classroom.</h2>
+      <div class="trust-stats">
+        <div class="trust-stat">
+          <div class="num">4,000+</div>
+          <div class="label">Schools &amp; settings</div>
+          <div class="desc">Supported across Kent and beyond</div>
+        </div>
+        <div class="trust-stat">
+          <div class="num">20,000+</div>
+          <div class="label">Educators trained</div>
+          <div class="desc">Every year, in person and online</div>
+        </div>
+        <div class="trust-stat">
+          <div class="num">200+</div>
+          <div class="label">Expert consultants</div>
+          <div class="desc">Working alongside your team</div>
+        </div>
+        <div class="trust-stat">
+          <div class="num">95%</div>
+          <div class="label">Would recommend</div>
+          <div class="desc">From our annual customer survey</div>
+        </div>
+      </div>
+    </div>
+    <div class="trust-quote">
+      <span class="mark" aria-hidden="true">&ldquo;</span>
+      <p class="q">TEP's training has been a turning point for our team. The sessions are practical, the trainers genuinely understand the day-to-day, and the support doesn't end when the course does.</p>
+      <div class="who">
+        <div class="av" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&auto=format&fit=crop')"></div>
+        <div>
+          <div class="name">Sarah Mitchell</div>
+          <div class="role">Headteacher, Primary School</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== WHY TEP (overview, retained) ====================== -->
+<section class="why">
+  <div class="container">
+    <div class="why-head">
+      <div class="eyebrow">Why The Education People</div>
+      <h2>Built on practical expertise — proven in real settings.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h4>Practical, not theoretical</h4>
+        <p>Every course, resource and recommendation is grounded in real classroom practice.</p>
+      </div>
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+        <h4>Local knowledge</h4>
+        <p>Deep roots in Kent's schools, settings and communities — and a national reach.</p>
+      </div>
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-people-group"></i></div>
+        <h4>Connected community</h4>
+        <p>One trusted partner across early years, schools, higher education and employment.</p>
+      </div>
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-laptop"></i></div>
+        <h4>Modern resources</h4>
+        <p>A growing library of digital tools, guides and on-demand training — always up to date.</p>
+      </div>
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-chart-line"></i></div>
+        <h4>Proven impact</h4>
+        <p>Measurable outcomes for the schools, leaders and learners we work with.</p>
+      </div>
+      <div class="why-item">
+        <div class="icon-circle"><i class="fa-solid fa-universal-access"></i></div>
+        <h4>Inclusive by design</h4>
+        <p>Accessible content, inclusive delivery and a commitment to every learner.</p>
+      </div>
+    </div>
+    <a class="why-cta" href="#">Work With Us</a>
+  </div>
+</section>
+
+<!-- ====================== MODERN FOOTER ====================== -->
+
+<script is:inline>
+// Hero image parallax — each image moves at its own rate, slower than the page scroll.
+  // Reversible because the transform is tied to absolute scrollY, so scrolling back unwinds it.
+  (function() {
+    const items = Array.from(document.querySelectorAll('.hero-img'));
+    if (!items.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      items.forEach(el => {
+        const speed = parseFloat(el.dataset.speed) || 0.2;
+        el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+      });
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+  })();
+
+  // Discover tabs — reorder the existing cards behind a quick fade so switching
+  // tabs reads as fresh content loading in (mock; no new cards required).
+  (function() {
+    const tabs = Array.from(document.querySelectorAll('.tabs a'));
+    const grid = document.querySelector('.courses');
+    if (!tabs.length || !grid) return;
+    const cards = Array.from(grid.children);
+    // a visibly distinct arrangement per tab
+    const orders = [
+      [0, 1, 2, 3], // Training
+      [2, 3, 1, 0], // Resources
+      [3, 0, 2, 1], // Events
+      [1, 2, 0, 3]  // Knowledge Hub
+    ];
+    grid.style.transition = 'opacity 0.2s ease';
+    tabs.forEach((tab, i) => {
+      tab.style.cursor = 'pointer';
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (tab.classList.contains('active')) return;
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        grid.style.opacity = '0';
+        setTimeout(() => {
+          (orders[i] || orders[0]).forEach(idx => grid.appendChild(cards[idx]));
+          grid.style.opacity = '1';
+        }, 200);
+      });
+    });
+  })();
+
+  // Animate stat numbers on scroll into view
+  (function() {
+    const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+    const animateNum = (el) => {
+      const original = el.textContent.trim();
+      const match = original.match(/^([\d,]+)(.*)$/);
+      if (!match) return;
+      const target = parseInt(match[1].replace(/,/g, ''), 10);
+      const suffix = match[2];
+      const duration = 1600;
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = easeOutCubic(t);
+        const v = Math.floor(target * eased);
+        el.textContent = v.toLocaleString('en-GB') + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = original;
+      };
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateNum(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.trust-stat .num').forEach(el => io.observe(el));
+  })();
+</script>
+
+</Base>

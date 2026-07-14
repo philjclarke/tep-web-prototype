@@ -1,0 +1,35 @@
+---
+// Base page layout — shared <head>, header and footer.
+// Props: title, active (nav highlight), marker (review badge),
+//        header/footer (toggle), for pages with a custom chrome (e.g. global search).
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tep-system.css';
+
+const {
+  title = 'The Education People',
+  active = '',
+  marker = '',
+  header = true,
+  footer = true,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <slot name="head" />
+  </head>
+  <body>
+    {header && <Header active={active} />}
+    <slot />
+    {footer && <Footer />}
+    {marker && <div class="marker">{marker}</div>}
+  </body>
+</html>

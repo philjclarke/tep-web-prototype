@@ -1,0 +1,292 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Primary Science Scheme of Work — The Education People" active="products" header={true} footer={true}>
+
+<style is:global>
+/* ---------- Training Product Page (page-specific) ---------- */
+  .product-wrap { padding: 26px 0 90px; }
+  .product-head { max-width: 820px; margin-bottom: 28px; }
+  .product-head .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .product-head h1 { font-size: 44px; line-height: 1.05; color: var(--purple); margin-bottom: 14px; }
+  .product-head .at-a-glance { font-size: 18px; color: var(--charcoal); line-height: 1.55; }
+
+  .product-grid { display: grid; grid-template-columns: 1fr 372px; gap: 56px; align-items: start; }
+  .product-main { min-width: 0; }
+
+  /* hero image */
+  .product-hero { position: relative; border-radius: 20px; overflow: hidden; height: 380px; margin-bottom: 32px; }
+  .product-hero img { width: 100%; height: 100%; object-fit: cover; }
+  .product-hero .badge { position: absolute; top: 18px; left: 18px; }
+
+  /* quick facts strip */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 22px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 40px; }
+  .facts .fact { display: flex; gap: 12px; align-items: flex-start; }
+  .facts .fact .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--lavender-soft); color: var(--purple); display: grid; place-items: center; font-size: 16px; flex-shrink: 0; }
+  .facts .fact .k { font-size: 12px; color: var(--charcoal); text-transform: uppercase; letter-spacing: 0.05em; }
+  .facts .fact .v { font-size: 15px; font-weight: 600; color: var(--ink); margin-top: 2px; }
+
+  /* content sections */
+  .section { margin-bottom: 44px; }
+  .section > h2 { font-size: 26px; margin-bottom: 16px; }
+  .section p { color: var(--charcoal); margin-bottom: 14px; line-height: 1.65; }
+  .section .outcomes { list-style: none; display: grid; gap: 10px; margin-top: 6px; }
+  .section .outcomes li { display: flex; gap: 12px; align-items: flex-start; color: var(--ink); }
+  .section .outcomes li i { color: var(--purple); margin-top: 3px; }
+  .included { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+  .included .item { display: flex; gap: 12px; align-items: flex-start; }
+  .included .item i { color: var(--purple); margin-top: 3px; }
+  .included .item strong { display: block; color: var(--ink); font-weight: 600; }
+  .included .item span { font-size: 14px; color: var(--charcoal); }
+
+  /* trainer */
+  .trainer { display: flex; gap: 22px; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+  .trainer .avatar { width: 92px; height: 92px; border-radius: 50%; background-size: cover; background-position: center; flex-shrink: 0; }
+  .trainer .role { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--lavender); }
+  .trainer h4 { font-size: 20px; color: var(--purple); margin: 2px 0 6px; }
+  .trainer p { font-size: 14px; color: var(--charcoal); margin: 0; }
+
+  /* downloads */
+  .downloads { display: grid; gap: 12px; }
+  .dl { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; transition: border-color 0.15s ease, background-color 0.15s ease; }
+  .dl:hover { border-color: var(--lavender); background: var(--paper); }
+  .dl .dl-ic { width: 42px; height: 42px; border-radius: 10px; background: var(--lavender-soft); color: var(--purple); display: grid; place-items: center; font-size: 18px; flex-shrink: 0; }
+  .dl .dl-txt { flex: 1; display: flex; flex-direction: column; }
+  .dl .dl-txt strong { color: var(--ink); font-weight: 600; font-size: 15px; }
+  .dl .dl-txt span { font-size: 13px; color: var(--charcoal); }
+  .dl > i { color: var(--purple); }
+
+  /* FAQ */
+  .faq { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq details:last-child { border-bottom: 0; }
+  .faq summary { list-style: none; cursor: pointer; padding: 18px 22px; font-weight: 600; font-size: 16px; color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary i { color: var(--purple); transition: transform 0.2s ease; flex-shrink: 0; }
+  .faq details[open] summary i { transform: rotate(45deg); }
+  .faq .faq-body { padding: 0 22px 20px; color: var(--charcoal); font-size: 15px; line-height: 1.6; }
+
+  /* ---------- sticky booking panel ---------- */
+  .booking { position: sticky; top: 20px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 20px 44px rgba(65,0,140,0.08); }
+  .booking .price-row { padding: 24px; background: linear-gradient(135deg, #fff 0%, var(--sand-soft) 100%); border-bottom: 1px solid var(--line); }
+  .booking .price { font-size: 34px; font-weight: 800; color: var(--purple); letter-spacing: -0.02em; }
+  .booking .price small { font-size: 15px; font-weight: 500; color: var(--charcoal); }
+  .booking .package-note { font-size: 13px; color: var(--charcoal); margin-top: 6px; display: inline-flex; align-items: center; gap: 7px; }
+  .booking .package-note .badge-sand { padding: 3px 9px; }
+  .booking .panel-body { padding: 22px 24px 26px; }
+  .booking .dates-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--charcoal); margin-bottom: 10px; }
+  .booking .date-opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease; }
+  .booking .date-opt:hover { border-color: var(--lavender); }
+  .booking .date-opt.selected { border-color: var(--purple); background: var(--lavender-soft); }
+  .booking .date-opt .d { font-weight: 600; font-size: 14px; color: var(--ink); }
+  .booking .date-opt .loc { font-size: 12px; color: var(--charcoal); }
+  .booking .date-opt .radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); flex-shrink: 0; position: relative; }
+  .booking .date-opt.selected .radio { border-color: var(--purple); }
+  .booking .date-opt.selected .radio::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--purple); }
+  .booking .cta-stack { display: grid; gap: 10px; margin: 18px 0 16px; }
+  .booking .mini-meta { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .booking .mini-meta .line { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--charcoal); }
+  .booking .mini-meta .line i { color: var(--purple); width: 16px; text-align: center; }
+  .booking .advice { margin-top: 16px; font-size: 13px; color: var(--charcoal); }
+  .booking .advice a { color: var(--purple); font-weight: 600; }
+
+  /* related + contact (full width) */
+  .related { background: var(--paper); border-top: 1px solid var(--line); padding: 64px 0; }
+  .related .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .contact-band { padding: 56px 0; }
+  .contact-card { background: var(--purple); color: #fff; border-radius: 20px; padding: 44px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px; position: relative; overflow: hidden; }
+  .contact-card::before { content: ""; position: absolute; width: 280px; height: 280px; border-radius: 50%; background: var(--lavender); opacity: 0.25; right: -80px; top: -100px; }
+  .contact-card > * { position: relative; z-index: 1; }
+  .contact-card h3 { color: #fff; font-size: 26px; margin-bottom: 6px; }
+  .contact-card p { color: #fff; opacity: 0.9; font-size: 15px; }
+  .contact-card .btn-primary { background: var(--sand); color: var(--ink); border-color: var(--sand); }
+  .contact-card .btn-primary:hover { background: #fbe38a; border-color: #fbe38a; }
+</style>
+
+<!-- ================= PRODUCT ================= -->
+<div class="container">
+  <div class="breadcrumb">
+    <a href="#">Home</a><span class="sep">/</span>
+    <a href="#">Products &amp; Resources</a><span class="sep">/</span>
+    <span class="current">Primary Science Scheme of Work</span>
+  </div>
+</div>
+
+<div class="product-wrap">
+  <div class="container">
+
+    <div class="product-head">
+      <div class="badges">
+        <span class="badge badge-purple">Downloadable resource</span>
+        <span class="badge badge-sand">Featured</span>
+        <span class="badge badge-mint">New</span>
+      </div>
+      <h1>Primary Science Scheme of Work</h1>
+      <p class="at-a-glance">A ready-to-use, full-year science scheme for Key Stages 1 and 2 — planning, assessment and pupil resources aligned to the National Curriculum, saving your team hours of preparation.</p>
+    </div>
+
+    <div class="product-grid">
+      <!-- MAIN COLUMN -->
+      <div class="product-main">
+
+        <div class="product-hero">
+          <span class="badge badge-light">Included in the Primary Package</span>
+          <img src="https://images.unsplash.com/photo-1567168544813-cc03465b4fa8?w=1100&q=80&auto=format&fit=crop" alt="Primary science lesson">
+        </div>
+
+        <div class="facts">
+          <div class="fact"><div class="ic"><i class="fa-solid fa-file-lines"></i></div><div><div class="k">Format</div><div class="v">PDF + editable</div></div></div>
+          <div class="fact"><div class="ic"><i class="fa-solid fa-layer-group"></i></div><div><div class="k">Coverage</div><div class="v">KS1 &amp; KS2</div></div></div>
+          <div class="fact"><div class="ic"><i class="fa-solid fa-bolt"></i></div><div><div class="k">Access</div><div class="v">Instant download</div></div></div>
+          <div class="fact"><div class="ic"><i class="fa-solid fa-school"></i></div><div><div class="k">Licence</div><div class="v">Whole school</div></div></div>
+        </div>
+
+        <div class="section">
+          <h2>About this resource</h2>
+          <p>Planning a coherent, progressive science curriculum takes time most primary teams don't have. This scheme gives you a complete, ready-to-teach programme for the whole of Key Stages 1 and 2 — fully mapped to the National Curriculum and built around working scientifically.</p>
+          <p>Every unit comes with lesson-by-lesson planning, clear learning outcomes, assessment guidance and pupil-facing resources, so teachers can pick it up and teach with confidence.</p>
+          <h2 style="font-size:20px;margin-top:26px;">Why schools choose it</h2>
+          <ul class="outcomes">
+            <li><i class="fa-solid fa-circle-check"></i><span>Full-year coverage for every year group, with clear progression built in.</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Editable planning you can adapt to your context and timetable.</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Built-in assessment to track and evidence pupil progress.</span></li>
+            <li><i class="fa-solid fa-circle-check"></i><span>Saves teachers hours of preparation every half term.</span></li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>What's included</h2>
+          <div class="included">
+            <div class="item"><i class="fa-solid fa-book-open"></i><div><strong>Full scheme of work</strong><span>Every unit across KS1 and KS2, ready to teach.</span></div></div>
+            <div class="item"><i class="fa-solid fa-pen-ruler"></i><div><strong>Editable planning</strong><span>Word and PDF formats you can tailor.</span></div></div>
+            <div class="item"><i class="fa-solid fa-clipboard-check"></i><div><strong>Assessment guidance</strong><span>Milestones and checkpoints for each unit.</span></div></div>
+            <div class="item"><i class="fa-solid fa-images"></i><div><strong>Pupil resources</strong><span>Worksheets, knowledge organisers and prompts.</span></div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Downloads &amp; preview</h2>
+          <div class="downloads">
+            <a class="dl" href="#"><span class="dl-ic"><i class="fa-regular fa-file-pdf"></i></span><span class="dl-txt"><strong>Sample unit — Year 3: Forces &amp; Magnets</strong><span>PDF · 1.4 MB · Free</span></span><i class="fa-solid fa-download"></i></a>
+            <a class="dl" href="#"><span class="dl-ic"><i class="fa-regular fa-file-lines"></i></span><span class="dl-txt"><strong>Full contents &amp; curriculum map</strong><span>PDF · 320 KB · Free</span></span><i class="fa-solid fa-download"></i></a>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Frequently asked questions</h2>
+          <div class="faq">
+            <details open>
+              <summary>What format is the scheme provided in? <i class="fa-solid fa-plus"></i></summary>
+              <div class="faq-body">You'll receive PDF versions plus editable Word documents, so you can adapt the planning to your own context and timetable.</div>
+            </details>
+            <details>
+              <summary>Can we share it across our whole school? <i class="fa-solid fa-plus"></i></summary>
+              <div class="faq-body">Yes — purchase includes a whole-school licence, so every teacher in your setting can use the resources.</div>
+            </details>
+            <details>
+              <summary>Is it aligned to the National Curriculum? <i class="fa-solid fa-plus"></i></summary>
+              <div class="faq-body">The scheme is fully mapped to the National Curriculum for science across KS1 and KS2, with working scientifically threaded throughout.</div>
+            </details>
+            <details>
+              <summary>Do we get updates? <i class="fa-solid fa-plus"></i></summary>
+              <div class="faq-body">Yes — you'll receive free updates to the scheme for 12 months from purchase.</div>
+            </details>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOOKING PANEL -->
+      <aside class="booking">
+        <div class="price-row">
+          <div class="price">£120 <small>+ VAT</small></div>
+          <div class="package-note"><span class="badge badge-sand">Package</span> Included free in the Primary Package</div>
+        </div>
+        <div class="panel-body">
+          <div class="cta-stack">
+            <a href="#" class="btn-primary btn-block btn-lg">Buy now <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#" class="btn-ghost btn-block"><i class="fa-solid fa-download"></i> Download sample</a>
+            <a href="#" class="btn-ghost btn-block" style="border-color:var(--line);color:var(--charcoal)"><i class="fa-regular fa-heart"></i> Add to wishlist</a>
+          </div>
+
+          <div class="mini-meta">
+            <div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable Word</div>
+            <div class="line"><i class="fa-solid fa-bolt"></i> Instant download after purchase</div>
+            <div class="line"><i class="fa-solid fa-school"></i> Whole-school licence</div>
+            <div class="line"><i class="fa-solid fa-rotate"></i> Free updates for 12 months</div>
+          </div>
+
+          <p class="advice">Buying for a group or MAT? <a href="#">Contact us</a> for multi-school pricing.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RELATED TRAINING ================= -->
+<section class="related">
+  <div class="container">
+    <div class="section-head"><div class="eyebrow">You might also like</div><h2>Related products &amp; training</h2></div>
+    <div class="grid">
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1588072432836-e10032774350?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Resource</span><span class="card-pill right badge badge-mint">Popular</span></div>
+        <div class="card-body">
+          <div class="card-type">Downloadable</div>
+          <div class="card-title">Primary Maths Scheme of Work</div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-tag"></i> £120 + VAT</div></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">E-learning</span></div>
+        <div class="card-body">
+          <div class="card-type">On-demand</div>
+          <div class="card-title">Teaching Working Scientifically</div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-laptop"></i> Self-paced</div><div class="line"><i class="fa-solid fa-clock"></i> ~2 hours</div></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span><span class="card-pill right badge badge-sand">New</span></div>
+        <div class="card-body">
+          <div class="card-type">Course</div>
+          <div class="card-title">Leading Primary Science</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 12 Nov 2026</div><div class="line"><i class="fa-solid fa-location-dot"></i> Online</div></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Article</span></div>
+        <div class="card-body">
+          <div class="card-type">Knowledge Hub</div>
+          <div class="card-title">Building a progression model in science</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 6 min read</div><div class="line"><i class="fa-solid fa-tag"></i> Curriculum</div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact-band">
+  <div class="container">
+    <div class="contact-card">
+      <div>
+        <h3>Need advice before you book?</h3>
+        <p>Our team can help you find the right course or arrange bespoke training for your setting.</p>
+      </div>
+      <a href="#" class="btn-primary btn-lg">Contact us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER (shared) ================= -->
+
+<script is:inline>
+// date option selection (mock)
+  document.querySelectorAll('.date-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.date-opt').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+</script>
+
+</Base>
