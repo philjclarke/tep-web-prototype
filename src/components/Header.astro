@@ -14,7 +14,62 @@ const cls = (k) => (active === k ? 'nav-item active' : 'nav-item');
 <div class="header">
   <div class="container">
     <a class="logo" href="/"><img src="/tep-logo.png" alt="The Education People" /></a>
-    <a class="search-box" href="/global-search">Search training, resources, services…</a>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" placeholder="Search training, resources, services…" aria-label="Search" />
+        <span class="clear">✕</span>
+      </div>
+
+      <div class="search-dd" hidden>
+        <div class="dd-section">
+          <div class="dd-label">Suggestions</div>
+          <div class="autocomplete">
+            <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong class="q">behaviour</strong> management</span></a>
+            <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong class="q">behaviour</strong> policy</span></a>
+            <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong class="q">behaviour</strong> support &amp; inclusion</span></a>
+          </div>
+        </div>
+
+        <div class="dd-divider"></div>
+
+        <div class="dd-section">
+          <div class="dd-label">Training &amp; Events</div>
+          <a class="sugg" href="/training-product">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=200&q=80&auto=format&fit=crop')"></div>
+            <div class="s-body"><div class="s-type">Course</div><div class="s-title">Managing Behaviour in the Classroom</div><div class="s-meta">12 Nov 2026 · Online · £95</div></div>
+            <span class="s-cta">Book</span>
+          </a>
+          <a class="sugg" href="/training-product">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=200&q=80&auto=format&fit=crop')"></div>
+            <div class="s-body"><div class="s-type">Webinar</div><div class="s-title">Positive Behaviour Support</div><div class="s-meta">3 Jun 2026 · Online · Free</div></div>
+            <span class="s-cta">Book</span>
+          </a>
+        </div>
+
+        <div class="dd-section">
+          <div class="dd-label">Products &amp; Resources</div>
+          <a class="sugg" href="/generic-product">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=200&q=80&auto=format&fit=crop')"></div>
+            <div class="s-body"><div class="s-type">Downloadable</div><div class="s-title">Behaviour Policy Template</div><div class="s-meta">PDF + editable · £30</div></div>
+            <span class="s-cta">Buy</span>
+          </a>
+        </div>
+
+        <div class="dd-section">
+          <div class="dd-label">Services &amp; Knowledge Hub</div>
+          <a class="sugg" href="#">
+            <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=200&q=80&auto=format&fit=crop')"></div>
+            <div class="s-body"><div class="s-type">Consultancy</div><div class="s-title">Behaviour &amp; Inclusion Review</div><div class="s-meta">Expert adviser · On-site or remote</div></div>
+            <span class="s-cta">Enquire</span>
+          </a>
+        </div>
+
+        <div class="dd-foot">
+          <a class="view-all" href="/search-results"><span>View all 32 results for “<span class="q">behaviour</span>”</span> <i class="fa-solid fa-arrow-right"></i></a>
+          <div class="popular">Popular: <a href="/search-results">EYFS</a> · <a href="/search-results">SEND</a> · <a href="/search-results">Safeguarding</a></div>
+        </div>
+      </div>
+    </div>
     <nav class="util-nav">
       <a href="#">About us</a>
       <a href="#" class="basket"><i class="fa-solid fa-bag-shopping basket-icon"></i>0</a>
@@ -42,3 +97,35 @@ const cls = (k) => (active === k ? 'nav-item active' : 'nav-item');
     <div class={cls('employment')}><a href="#">Supported Employment</a></div>
   </div>
 </nav>
+
+<div class="search-overlay" hidden></div>
+
+<script is:inline>
+  // Site search: focusing the header search opens the dropdown + dim overlay in
+  // place. Typing rewrites the suggestion query; Enter goes to results (mock).
+  (function() {
+    const wrap = document.querySelector('.header .search-wrap');
+    if (!wrap) return;
+    const input = wrap.querySelector('input');
+    const clear = wrap.querySelector('.search-box .clear');
+    const dd = wrap.querySelector('.search-dd');
+    const overlay = document.querySelector('.search-overlay');
+    const qEls = dd.querySelectorAll('.q');
+
+    const open = () => { wrap.classList.add('open'); dd.hidden = false; overlay.hidden = false; };
+    const close = () => { wrap.classList.remove('open'); dd.hidden = true; overlay.hidden = true; input.blur(); };
+    const sync = () => {
+      const q = input.value.trim() || 'behaviour';
+      qEls.forEach((el) => { el.textContent = q; });
+    };
+
+    input.addEventListener('focus', open);
+    input.addEventListener('input', sync);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') location.href = '/search-results';
+    });
+    clear.addEventListener('click', () => { input.value = ''; sync(); close(); });
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  })();
+</script>

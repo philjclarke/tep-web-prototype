@@ -50,7 +50,7 @@ import Base from '../layouts/Base.astro';
 <!-- ================= HEADER (shared, with active search) ================= -->
 <div class="util"><div class="container"><div class="left"><span class="dot"></span> Commercial Services Group</div><div class="right">CREATING IMPACT</div></div></div>
 <div class="header"><div class="container">
-  <a class="logo" href="#"><img src="/tep-logo.png" alt="The Education People"></a>
+  <a class="logo" href="/"><img src="/tep-logo.png" alt="The Education People"></a>
 
   <div class="search-wrap">
     <div class="search-box">behaviour<span class="clear">✕</span></div>
@@ -60,9 +60,9 @@ import Base from '../layouts/Base.astro';
       <div class="dd-section">
         <div class="dd-label">Suggestions</div>
         <div class="autocomplete">
-          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> management</span></a>
-          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> policy</span></a>
-          <a href="#"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> support &amp; inclusion</span></a>
+          <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> management</span></a>
+          <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> policy</span></a>
+          <a href="/search-results"><i class="fa-solid fa-magnifying-glass ac-ic"></i> <span><strong>behaviour</strong> support &amp; inclusion</span></a>
         </div>
       </div>
 
@@ -70,12 +70,12 @@ import Base from '../layouts/Base.astro';
 
       <div class="dd-section">
         <div class="dd-label">Training &amp; Events</div>
-        <a class="sugg" href="#">
+        <a class="sugg" href="/training-product">
           <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=200&q=80&auto=format&fit=crop')"></div>
           <div class="s-body"><div class="s-type">Course</div><div class="s-title">Managing Behaviour in the Classroom</div><div class="s-meta">12 Nov 2026 · Online · £95</div></div>
           <span class="s-cta">Book</span>
         </a>
-        <a class="sugg" href="#">
+        <a class="sugg" href="/training-product">
           <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=200&q=80&auto=format&fit=crop')"></div>
           <div class="s-body"><div class="s-type">Webinar</div><div class="s-title">Positive Behaviour Support</div><div class="s-meta">3 Jun 2026 · Online · Free</div></div>
           <span class="s-cta">Book</span>
@@ -84,7 +84,7 @@ import Base from '../layouts/Base.astro';
 
       <div class="dd-section">
         <div class="dd-label">Products &amp; Resources</div>
-        <a class="sugg" href="#">
+        <a class="sugg" href="/generic-product">
           <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=200&q=80&auto=format&fit=crop')"></div>
           <div class="s-body"><div class="s-type">Downloadable</div><div class="s-title">Behaviour Policy Template</div><div class="s-meta">PDF + editable · £30</div></div>
           <span class="s-cta">Buy</span>
@@ -107,7 +107,7 @@ import Base from '../layouts/Base.astro';
 
       <div class="dd-foot">
         <a class="view-all" href="/search-results">View all 32 results for “behaviour” <i class="fa-solid fa-arrow-right"></i></a>
-        <div class="popular">Popular: <a href="#">EYFS</a> · <a href="#">SEND</a> · <a href="#">Safeguarding</a></div>
+        <div class="popular">Popular: <a href="/search-results">EYFS</a> · <a href="/search-results">SEND</a> · <a href="/search-results">Safeguarding</a></div>
       </div>
     </div>
   </div>
@@ -121,8 +121,8 @@ import Base from '../layouts/Base.astro';
 </div></div>
 <nav class="mainnav"><div class="container">
   <div class="nav-item"><a href="#">Consultancy</a></div>
-  <div class="nav-item"><a href="#">Products &amp; Resources <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">Downloadable resources</a><a href="#">Publications</a><a href="#">E-learning</a><a href="#">Webinars</a><a href="#">Product A–Z</a></div></div>
-  <div class="nav-item"><a href="#">Training &amp; Events <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">All training</a><a href="#">Conferences</a><a href="#">Courses</a><a href="#">Webinars</a><a href="#">Browse by term</a></div></div>
+  <div class="nav-item"><a href="#">Products &amp; Resources <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="/generic-product">Downloadable resources</a><a href="#">Publications</a><a href="#">E-learning</a><a href="#">Webinars</a><a href="#">Product A–Z</a></div></div>
+  <div class="nav-item"><a href="#">Training &amp; Events <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="/search-results">All training</a><a href="#">Conferences</a><a href="/training-product">Courses</a><a href="#">Webinars</a><a href="#">Browse by term</a></div></div>
   <div class="nav-item"><a href="#">Knowledge Hub <i class="fa-solid fa-chevron-down caret"></i></a><div class="dropdown"><a href="#">EdHub</a><a href="#">Blog</a><a href="#">FAQs</a><a href="#">Our Services</a></div></div>
   <div class="nav-item"><a href="#">Supported Employment</a></div>
 </div></nav>
@@ -143,5 +143,19 @@ import Base from '../layouts/Base.astro';
     </div>
   </div>
 </div>
+
+<script is:inline>
+  // Close the search: ✕ button, clicking the dim overlay, or Escape.
+  // The "open search" is this whole page, so closing = leaving it.
+  (function() {
+    const close = () => {
+      if (history.length > 1) history.back();
+      else location.href = '/';
+    };
+    document.querySelector('.search-box .clear')?.addEventListener('click', close);
+    document.querySelector('.search-overlay')?.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  })();
+</script>
 
 </Base>
