@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Search results — The Education People" active="" header={true} footer={true}>
+
+<style is:global>
+/* ---------- Search Results: no-results state (page-specific) ---------- */
+  .results-hero { background: linear-gradient(135deg, var(--pink-soft) 0%, var(--lavender-soft) 45%, var(--cyan-soft) 100%); padding: 40px 0 44px; }
+  .results-hero h1 { font-size: 30px; color: var(--purple); margin-bottom: 18px; }
+  .results-hero h1 span { color: var(--ink); }
+  .big-search { background: #fff; border-radius: 16px; padding: 8px 8px 8px 22px; display: flex; align-items: center; gap: 12px; max-width: 720px; box-shadow: 0 16px 40px rgba(65,0,140,0.12); }
+  .big-search .ic { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--purple); position: relative; flex-shrink: 0; }
+  .big-search .ic::after { content: ""; position: absolute; width: 10px; height: 2.5px; background: var(--purple); bottom: -3px; right: -5px; transform: rotate(45deg); }
+  .big-search input { flex: 1; border: 0; outline: 0; font-family: var(--sans); font-size: 16px; color: var(--ink); background: transparent; }
+  .big-search button { background: var(--purple); color: #fff; border: 0; border-radius: 12px; padding: 14px 28px; font-family: var(--sans); font-weight: 600; font-size: 15px; cursor: pointer; }
+
+  /* empty state */
+  .empty-wrap { padding: 56px 0 24px; }
+  .empty-panel { max-width: 720px; }
+  .empty-panel .zero { font-size: 15px; color: var(--charcoal); margin-bottom: 8px; }
+  .empty-panel .zero strong { color: var(--ink); }
+  .empty-panel h2 { font-size: 28px; color: var(--ink); margin-bottom: 10px; }
+  .empty-panel .didyoumean { font-size: 17px; color: var(--charcoal); margin-bottom: 26px; }
+  .empty-panel .didyoumean a { color: var(--purple); font-weight: 700; text-decoration: underline; }
+
+  .empty-tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin-bottom: 8px; }
+  .tip { display: flex; gap: 14px; align-items: flex-start; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .tip .ic { width: 38px; height: 38px; border-radius: 10px; background: var(--lavender-soft); color: var(--purple); display: grid; place-items: center; font-size: 15px; flex-shrink: 0; }
+  .tip strong { display: block; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .tip span { font-size: 13px; color: var(--charcoal); line-height: 1.5; }
+
+  /* suggested searches */
+  .try-searches { padding: 34px 0 10px; }
+  .try-searches h3 { font-size: 18px; color: var(--ink); margin-bottom: 14px; }
+  .try-searches .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .try-searches .chips a { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-size: 14px; font-weight: 500; color: var(--purple); }
+  .try-searches .chips a:hover { border-color: var(--purple); }
+
+  /* recommended content */
+  .discover-more { padding: 48px 0 72px; }
+  .discover-more .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+
+  /* still stuck */
+  .stuck { background: var(--paper); border-top: 1px solid var(--line); padding: 40px 0; }
+  .stuck .row { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .stuck h3 { font-size: 20px; color: var(--ink); margin-bottom: 4px; }
+  .stuck p { font-size: 14px; color: var(--charcoal); }
+</style>
+
+<!-- ================= RESULTS HERO (query retained) ================= -->
+<section class="results-hero">
+  <div class="container">
+    <h1>Results for <span>“safegarding”</span></h1>
+    <form class="big-search" onsubmit="return false">
+      <span class="ic"></span>
+      <input value="safegarding">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</section>
+
+<!-- ================= NO RESULTS MESSAGE + GUIDANCE ================= -->
+<div class="empty-wrap">
+  <div class="container">
+    <div class="empty-panel">
+      <div class="zero"><strong>0 results</strong> for “safegarding”</div>
+      <h2>We couldn't find a match — but we can still help.</h2>
+      <p class="didyoumean">Did you mean <a href="/search-results">safeguarding</a>?</p>
+    </div>
+    <div class="empty-tips">
+      <div class="tip"><div class="ic"><i class="fa-solid fa-spell-check"></i></div><div><strong>Check the spelling</strong><span>Typos are easy to make — try the suggestion above or retype your search.</span></div></div>
+      <div class="tip"><div class="ic"><i class="fa-solid fa-arrows-left-right"></i></div><div><strong>Try a broader term</strong><span>Fewer or more general words often find more — e.g. “safeguarding” rather than “safeguarding lead refresher Ashford”.</span></div></div>
+      <div class="tip"><div class="ic"><i class="fa-solid fa-compass"></i></div><div><strong>Browse instead</strong><span>Explore Training &amp; Events or Products &amp; Resources from the menu above.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SUGGESTED SEARCHES ================= -->
+<section class="try-searches">
+  <div class="container">
+    <h3>Try searching for</h3>
+    <div class="chips">
+      <a href="/search-results">Safeguarding</a>
+      <a href="/search-results">Designated safeguarding lead</a>
+      <a href="/search-results">Child protection</a>
+      <a href="/search-results">Safer recruitment</a>
+      <a href="/search-results">Online safety</a>
+      <a href="/search-results">KCSIE 2026</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RECOMMENDED CONTENT ================= -->
+<section class="discover-more">
+  <div class="container">
+    <div class="section-head"><div class="eyebrow">While you're here</div><h2>Popular right now</h2></div>
+    <div class="grid">
+      <a class="card" href="/training-product">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span><span class="card-pill right badge badge-sand">Free</span></div>
+        <div class="card-body">
+          <div class="card-type">Webinar</div>
+          <div class="card-title">Designated Safeguarding Lead Refresher</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 3 Jun 2026</div><div class="line"><i class="fa-solid fa-laptop"></i> Online</div></div>
+        </div>
+      </a>
+      <a class="card" href="/generic-product">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Resource</span><span class="card-pill right badge badge-mint">Popular</span></div>
+        <div class="card-body">
+          <div class="card-type">Downloadable</div>
+          <div class="card-title">Safeguarding Policy Toolkit</div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-school"></i> Whole school</div></div>
+        </div>
+      </a>
+      <a class="card" href="/training-product">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Training</span></div>
+        <div class="card-body">
+          <div class="card-type">Course</div>
+          <div class="card-title">Effective Coaching in Schools</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 15 Oct 2026</div><div class="line"><i class="fa-solid fa-location-dot"></i> Ashford</div></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Knowledge Hub</span></div>
+        <div class="card-body">
+          <div class="card-type">Article</div>
+          <div class="card-title">Keeping Children Safe in Education 2026: what's changed</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 7 min read</div><div class="line"><i class="fa-solid fa-tag"></i> Safeguarding</div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STILL STUCK ================= -->
+<section class="stuck">
+  <div class="container">
+    <div class="row">
+      <div>
+        <h3>Still can't find what you need?</h3>
+        <p>Tell us what you're looking for — our team will point you to the right training, resource or adviser.</p>
+      </div>
+      <a href="#" class="btn-primary">Contact us <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+</Base>

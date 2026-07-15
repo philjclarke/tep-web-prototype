@@ -57,6 +57,10 @@ import Base from '../layouts/Base.astro';
   .pagination a.active { background: var(--purple); color: #fff; border-color: var(--purple); }
   .pagination a.arrow { color: var(--purple); }
 
+  /* related content recommendations */
+  .discover-more { border-top: 1px solid var(--line); padding: 56px 0 64px; }
+  .discover-more .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+
   /* related searches */
   .related-searches { background: var(--paper); border-top: 1px solid var(--line); padding: 48px 0; }
   .related-searches h3 { font-size: 18px; color: var(--ink); margin-bottom: 16px; }
@@ -90,6 +94,14 @@ import Base from '../layouts/Base.astro';
         <label class="fopt"><input type="checkbox"> Services <span class="count">6</span></label>
         <label class="fopt"><input type="checkbox"> Blogs <span class="count">5</span></label>
         <label class="fopt"><input type="checkbox"> Knowledge Hub <span class="count">4</span></label>
+      </div>
+      <div class="fgroup">
+        <h4>Subject</h4>
+        <label class="fopt"><input type="checkbox" checked> Safeguarding <span class="count">23</span></label>
+        <label class="fopt"><input type="checkbox"> Behaviour <span class="count">8</span></label>
+        <label class="fopt"><input type="checkbox"> SEND <span class="count">7</span></label>
+        <label class="fopt"><input type="checkbox"> Leadership <span class="count">6</span></label>
+        <label class="fopt"><input type="checkbox"> Attendance <span class="count">4</span></label>
       </div>
       <div class="fgroup">
         <h4>Audience</h4>
@@ -233,6 +245,51 @@ import Base from '../layouts/Base.astro';
     </div>
   </div>
 </div>
+
+<!-- ================= RELATED CONTENT (tag-driven recommendations) ================= -->
+<section class="discover-more">
+  <div class="container">
+    <div class="section-head"><div class="eyebrow">Related content</div><h2>You might also find useful</h2></div>
+    <div class="grid">
+      <a class="card" href="/generic-product">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Resource</span></div>
+        <div class="card-body">
+          <div class="card-type">Downloadable</div>
+          <div class="card-title">Staff Code of Conduct Template</div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-tag"></i> Safeguarding</div></div>
+          <div class="card-foot"><span class="card-price">£35</span><span class="cta">Buy now <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Service</span></div>
+        <div class="card-body">
+          <div class="card-type">Consultancy</div>
+          <div class="card-title">Safeguarding Culture Health Check</div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-user-tie"></i> Expert adviser</div><div class="line"><i class="fa-solid fa-location-dot"></i> On-site or remote</div></div>
+          <div class="card-foot"><span class="card-price">POA</span><span class="cta">Enquire <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Knowledge Hub</span></div>
+        <div class="card-body">
+          <div class="card-type">Guide</div>
+          <div class="card-title">The DSL's first 100 days: a practical guide</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 9 min read</div><div class="line"><i class="fa-solid fa-tag"></i> Safeguarding</div></div>
+          <div class="card-foot"><span class="card-price"></span><span class="cta">View resource <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80&auto=format&fit=crop')"><span class="card-pill badge badge-light">Blog</span></div>
+        <div class="card-body">
+          <div class="card-type">Blog</div>
+          <div class="card-title">What inspectors ask about safeguarding — and how to prepare</div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 5 min read</div><div class="line"><i class="fa-regular fa-calendar"></i> 2 Jun 2026</div></div>
+          <div class="card-foot"><span class="card-price"></span><span class="cta">Read article <i class="fa-solid fa-arrow-right"></i></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- ================= RELATED SEARCHES ================= -->
 <section class="related-searches">

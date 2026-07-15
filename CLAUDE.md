@@ -46,7 +46,8 @@ public/                    ← static assets (referenced as /tep-logo.png etc.)
 ```
 
 **Pages:** `/` (home), `/training-product`, `/generic-product`, `/search-results`,
-`/global-search`.
+`/search-results-empty` (no-results state), `/global-search` (legacy static mock of the
+open-search state — the live search overlay now lives in `Header.astro`).
 
 ### Conventions (follow these — the migration relies on them)
 - Page-specific CSS goes in **`<style is:global>`** (NOT scoped) so it can target the
