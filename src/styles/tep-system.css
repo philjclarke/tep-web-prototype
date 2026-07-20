@@ -155,6 +155,17 @@ img { max-width: 100%; display: block; }
 .dd-foot .popular a { color: var(--purple); font-weight: 600; }
 
 .search-overlay { position: fixed; inset: 0; background: rgba(26,18,38,0.42); z-index: 200; }
+
+/* ---------- Topic tags (customer-facing tagging framework) ---------- */
+.topic-tag { display: inline-flex; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: var(--purple); transition: border-color 0.15s ease; }
+.topic-tag:hover { border-color: var(--purple); }
+.topic-tag.sm { padding: 3px 10px; font-size: 11px; }
+.topics-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.topics-bar .topic-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.topics-bar .actions { display: flex; gap: 8px; }
+.topics-bar .actions button { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--purple); font-size: 14px; cursor: pointer; display: grid; place-items: center; transition: border-color 0.15s ease, background-color 0.15s ease; }
+.topics-bar .actions button:hover { border-color: var(--purple); background: var(--lavender-soft); }
+.card .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 .search-box::before { content: ""; position: absolute; left: 19px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--purple); }
 .search-box::after { content: ""; position: absolute; left: 31px; top: 26px; width: 8px; height: 2px; background: var(--purple); transform: rotate(45deg); }
 .util-nav { display: flex; gap: 22px; align-items: center; font-size: 14px; margin-left: auto; }
@@ -166,7 +177,7 @@ img { max-width: 100%; display: block; }
 .util-nav > a.btn-login, .util-nav > a.btn-login:hover { color: #fff; }
 .btn-login:hover { background: var(--purple-deep); transform: translateY(-1px); }
 
-.mainnav { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; z-index: 300; }
+.mainnav { background: #fff; border-bottom: 1px solid var(--line); position: relative; z-index: 300; }
 .mainnav .container { display: flex; gap: 4px; }
 .nav-item { position: relative; }
 .nav-item > a { display: inline-flex; align-items: center; gap: 8px; padding: 17px 18px; font-size: 15px; font-weight: 600; color: var(--ink); border-bottom: 3px solid transparent; margin-bottom: -1px; transition: color 0.15s ease, border-color 0.15s ease; }

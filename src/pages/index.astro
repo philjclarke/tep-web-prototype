@@ -127,7 +127,7 @@ import Base from '../layouts/Base.astro';
   .hero {
     position: relative;
     overflow: hidden;
-    padding: 100px 0 120px;
+    padding: 52px 0 60px; /* compact per 16.07 feedback — was 100/120 */
     background: linear-gradient(135deg,
       var(--pink-soft) 0%,
       var(--pink) 22%,
@@ -140,21 +140,21 @@ import Base from '../layouts/Base.astro';
   .hero .container { position: relative; z-index: 5; display: grid; grid-template-columns: 1.05fr 1fr; gap: 60px; align-items: center; }
   .hero h1 {
     font-family: var(--sans);
-    font-size: 80px;
+    font-size: 64px;
     font-weight: 600;
     line-height: 1.0;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     letter-spacing: -0.04em;
     color: var(--lavender);
   }
   .hero h1 em { font-style: normal; color: var(--purple); font-weight: 800; padding-right: 6px; }
   .hero .lead {
-    font-size: 21px; line-height: 1.5;
+    font-size: 19px; line-height: 1.5;
     color: var(--charcoal);
-    margin-bottom: 38px;
+    margin-bottom: 26px;
     max-width: 520px;
   }
-  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
   .btn-primary {
     background: var(--purple); color: white;
     padding: 16px 32px; border-radius: 999px;
@@ -190,7 +190,7 @@ import Base from '../layouts/Base.astro';
   }
 
   /* Hero — circular photo over slowly-drifting brand circles */
-  .montage { position: relative; height: 540px; }
+  .montage { position: relative; height: 430px; }
 
   /* drifting background circles (different colours / blends / opacities) */
   .hero-blob { position: absolute; border-radius: 50%; will-change: transform; }
@@ -210,7 +210,7 @@ import Base from '../layouts/Base.astro';
   /* circular hero photo (placeholder — to be replaced) */
   .hero-photo {
     position: absolute;
-    width: 580px; height: 580px;
+    width: 470px; height: 470px;
     top: 50%; right: -10px;
     transform: translateY(-50%);
     background: url("/hero-circle.png") center/contain no-repeat;
@@ -472,6 +472,16 @@ import Base from '../layouts/Base.astro';
     pointer-events: none;
     z-index: 0;
   }
+  .trust-quote .slides { display: grid; position: relative; z-index: 1; }
+  .trust-quote .t-slide { grid-area: 1 / 1; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+  .trust-quote .t-slide.active { opacity: 1; pointer-events: auto; }
+  .trust-quote .t-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 26px; position: relative; z-index: 1; }
+  .trust-quote .dots { display: flex; gap: 8px; }
+  .trust-quote .dot { width: 9px; height: 9px; border-radius: 50%; border: 0; padding: 0; background: var(--line); cursor: pointer; transition: background-color 0.2s ease, transform 0.2s ease; }
+  .trust-quote .dot.active { background: var(--purple); transform: scale(1.25); }
+  .trust-quote .arrows { display: flex; gap: 8px; }
+  .trust-quote .arrows button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--purple); font-size: 14px; cursor: pointer; display: grid; place-items: center; transition: border-color 0.15s ease, background-color 0.15s ease; }
+  .trust-quote .arrows button:hover { border-color: var(--purple); background: var(--lavender-soft); }
   .trust-quote .q, .trust-quote .who { position: relative; z-index: 1; }
   .trust-quote .q { font-family: var(--serif); font-size: 24px; line-height: 1.35; color: var(--ink); margin-bottom: 24px; margin-top: 18px; font-weight: 500; }
   .trust-quote .who { display: flex; align-items: center; gap: 14px; }
@@ -629,86 +639,6 @@ import Base from '../layouts/Base.astro';
   </div>
 </section>
 
-<!-- ====================== AUDIENCE (6 cards) ====================== -->
-<section class="block audience">
-  <div class="container">
-    <div class="section-head center">
-      <div class="eyebrow">Who we work with</div>
-      <h2>Support for every stage of life.</h2>
-      <p class="lead">From the very first years of learning, through schools and higher education, into employment beyond. One trusted partner across the journey.</p>
-    </div>
-
-    <div class="accordion">
-      <a class="acc-panel" href="#" style="--acc: var(--mint)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Early Years</h4>
-          <div class="sub">Ages 0–5</div>
-          <p class="detail">Training, resources and expert support for the earliest years of a child's learning.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Primary Schools</h4>
-          <div class="sub">Ages 4–11</div>
-          <p class="detail">Practical CPD, curriculum support and school-improvement services for primary settings.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-      <a class="acc-panel" href="#" style="--acc: var(--lavender)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Secondary Schools</h4>
-          <div class="sub">Ages 11–19</div>
-          <p class="detail">Leadership, safeguarding and subject expertise for secondary schools and trusts.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-      <a class="acc-panel" href="#" style="--acc: var(--pink)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Higher Education</h4>
-          <div class="sub">Ages 19+</div>
-          <p class="detail">Professional development and consultancy for colleges and higher education.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-      <a class="acc-panel" href="#" style="--acc: var(--sand)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Local Authorities</h4>
-          <div class="sub">&amp; Businesses</div>
-          <p class="detail">Trusted partnerships, training and services for local authorities and employers.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format&fit=crop')"></div>
-        <div class="grad"></div>
-        <div class="content">
-          <div class="acc-bar"></div>
-          <h4>Employment Support</h4>
-          <div class="sub">Adults seeking work</div>
-          <p class="detail">Helping adults facing barriers move into meaningful, sustainable employment.</p>
-          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ====================== DISCOVER (combined featured + tabs) ====================== -->
 <section class="block discover">
   <div class="container">
@@ -810,6 +740,86 @@ import Base from '../layouts/Base.astro';
   </div>
 </section>
 
+<!-- ====================== AUDIENCE (6 cards) ====================== -->
+<section class="block audience">
+  <div class="container">
+    <div class="section-head center">
+      <div class="eyebrow">Who we work with</div>
+      <h2>Support for every stage of life.</h2>
+      <p class="lead">From the very first years of learning, through schools and higher education, into employment beyond. One trusted partner across the journey.</p>
+    </div>
+
+    <div class="accordion">
+      <a class="acc-panel" href="#" style="--acc: var(--mint)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Early Years</h4>
+          <div class="sub">Ages 0–5</div>
+          <p class="detail">Training, resources and expert support for the earliest years of a child's learning.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Primary Schools</h4>
+          <div class="sub">Ages 4–11</div>
+          <p class="detail">Practical CPD, curriculum support and school-improvement services for primary settings.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--lavender)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Secondary Schools</h4>
+          <div class="sub">Ages 11–19</div>
+          <p class="detail">Leadership, safeguarding and subject expertise for secondary schools and trusts.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--pink)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Higher Education</h4>
+          <div class="sub">Ages 19+</div>
+          <p class="detail">Professional development and consultancy for colleges and higher education.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--sand)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Local Authorities</h4>
+          <div class="sub">&amp; Businesses</div>
+          <p class="detail">Trusted partnerships, training and services for local authorities and employers.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+      <a class="acc-panel" href="#" style="--acc: var(--cyan)">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="grad"></div>
+        <div class="content">
+          <div class="acc-bar"></div>
+          <h4>Employment Support</h4>
+          <div class="sub">Adults seeking work</div>
+          <p class="detail">Helping adults facing barriers move into meaningful, sustainable employment.</p>
+          <span class="explore">Explore <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ====================== SUPPORTED EMPLOYMENT (standalone) ====================== -->
 <section class="block spotlight">
   <div class="container">
@@ -854,12 +864,47 @@ import Base from '../layouts/Base.astro';
     </div>
     <div class="trust-quote">
       <span class="mark" aria-hidden="true">&ldquo;</span>
-      <p class="q">TEP's training has been a turning point for our team. The sessions are practical, the trainers genuinely understand the day-to-day, and the support doesn't end when the course does.</p>
-      <div class="who">
-        <div class="av" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&auto=format&fit=crop')"></div>
-        <div>
-          <div class="name">Sarah Mitchell</div>
-          <div class="role">Headteacher, Primary School</div>
+      <div class="slides">
+        <div class="t-slide active">
+          <p class="q">TEP's training has been a turning point for our team. The sessions are practical, the trainers genuinely understand the day-to-day, and the support doesn't end when the course does.</p>
+          <div class="who">
+            <div class="av" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80&auto=format&fit=crop')"></div>
+            <div>
+              <div class="name">Sarah Mitchell</div>
+              <div class="role">Headteacher, Primary School</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-slide">
+          <p class="q">The safeguarding review was thorough, honest and genuinely useful. We came away with a clear plan — and a partner we trust to help us deliver it.</p>
+          <div class="who">
+            <div class="av" style="background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80&auto=format&fit=crop')"></div>
+            <div>
+              <div class="name">David Okafor</div>
+              <div class="role">Chair of Governors, Secondary Academy</div>
+            </div>
+          </div>
+        </div>
+        <div class="t-slide">
+          <p class="q">As a small setting, having expert early years advice on hand has made all the difference. It feels like they're part of our team, not an outside agency.</p>
+          <div class="who">
+            <div class="av" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&q=80&auto=format&fit=crop')"></div>
+            <div>
+              <div class="name">Priya Shah</div>
+              <div class="role">Manager, Early Years Setting</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="t-nav">
+        <div class="dots" role="tablist" aria-label="Testimonials">
+          <button class="dot active" aria-label="Testimonial 1"></button>
+          <button class="dot" aria-label="Testimonial 2"></button>
+          <button class="dot" aria-label="Testimonial 3"></button>
+        </div>
+        <div class="arrows">
+          <button class="t-prev" aria-label="Previous testimonial"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="t-next" aria-label="Next testimonial"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
       </div>
     </div>
@@ -912,7 +957,31 @@ import Base from '../layouts/Base.astro';
 <!-- ====================== MODERN FOOTER ====================== -->
 
 <script is:inline>
-// Hero image parallax — each image moves at its own rate, slower than the page scroll.
+// Testimonial carousel — auto-rotates every 6s, pauses on hover; dots + arrows
+  // for manual control (manual navigation restarts the timer).
+  (function() {
+    const card = document.querySelector('.trust-quote');
+    if (!card) return;
+    const slides = Array.from(card.querySelectorAll('.t-slide'));
+    const dots = Array.from(card.querySelectorAll('.dot'));
+    if (slides.length < 2) return;
+    let i = 0, timer;
+    const show = (n) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle('active', k === i));
+      dots.forEach((d, k) => d.classList.toggle('active', k === i));
+    };
+    const start = () => { timer = setInterval(() => show(i + 1), 6000); };
+    const restart = () => { clearInterval(timer); start(); };
+    dots.forEach((d, k) => d.addEventListener('click', () => { show(k); restart(); }));
+    card.querySelector('.t-prev').addEventListener('click', () => { show(i - 1); restart(); });
+    card.querySelector('.t-next').addEventListener('click', () => { show(i + 1); restart(); });
+    card.addEventListener('mouseenter', () => clearInterval(timer));
+    card.addEventListener('mouseleave', start);
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) start();
+  })();
+
+  // Hero image parallax — each image moves at its own rate, slower than the page scroll.
   // Reversible because the transform is tied to absolute scrollY, so scrolling back unwinds it.
   (function() {
     const items = Array.from(document.querySelectorAll('.hero-img'));

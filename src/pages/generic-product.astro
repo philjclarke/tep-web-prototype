@@ -68,7 +68,7 @@ import Base from '../layouts/Base.astro';
 
   /* ---------- sticky booking panel ---------- */
   .booking { position: sticky; top: 20px; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 20px 44px rgba(65,0,140,0.08); }
-  .booking .price-row { padding: 24px; background: linear-gradient(135deg, #fff 0%, var(--sand-soft) 100%); border-bottom: 1px solid var(--line); }
+  .booking .price-row { padding: 24px; background: var(--paper); border-bottom: 1px solid var(--line); }
   .booking .price { font-size: 34px; font-weight: 800; color: var(--purple); letter-spacing: -0.02em; }
   .booking .price small { font-size: 15px; font-weight: 500; color: var(--charcoal); }
   .booking .package-note { font-size: 13px; color: var(--charcoal); margin-top: 6px; display: inline-flex; align-items: center; gap: 7px; }
@@ -99,15 +99,22 @@ import Base from '../layouts/Base.astro';
   .contact-card > * { position: relative; z-index: 1; }
   .contact-card h3 { color: #fff; font-size: 26px; margin-bottom: 6px; }
   .contact-card p { color: #fff; opacity: 0.9; font-size: 15px; }
-  .contact-card .btn-primary { background: var(--sand); color: var(--ink); border-color: var(--sand); }
-  .contact-card .btn-primary:hover { background: #fbe38a; border-color: #fbe38a; }
+  .contact-card .btn-primary { background: #fff; color: var(--purple); border-color: #fff; }
+  .contact-card .btn-primary:hover { background: var(--paper); border-color: var(--paper); }
+
+  /* reusable CMS content block (modular/optional — dashed outline signals CMS-managed) */
+  .cms-block { border: 1px dashed var(--lavender); border-radius: 16px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: linear-gradient(135deg, #fff 0%, var(--lavender-soft) 100%); margin-bottom: 44px; }
+  .cms-block .cb-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lavender); margin-bottom: 4px; }
+  .cms-block h4 { font-size: 18px; color: var(--purple); margin-bottom: 4px; }
+  .cms-block p { font-size: 14px; color: var(--charcoal); margin: 0; }
+  .cms-block .btn-ghost { flex-shrink: 0; padding: 10px 20px; font-size: 14px; }
 </style>
 
 <!-- ================= PRODUCT ================= -->
 <div class="container">
   <div class="breadcrumb">
-    <a href="#">Home</a><span class="sep">/</span>
-    <a href="#">Products &amp; Resources</a><span class="sep">/</span>
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="/search-results">Products &amp; Resources</a><span class="sep">/</span>
     <span class="current">Primary Science Scheme of Work</span>
   </div>
 </div>
@@ -118,7 +125,7 @@ import Base from '../layouts/Base.astro';
     <div class="product-head">
       <div class="badges">
         <span class="badge badge-purple">Downloadable resource</span>
-        <span class="badge badge-sand">Featured</span>
+        <span class="badge badge-light">Featured</span>
         <span class="badge badge-mint">New</span>
       </div>
       <h1>Primary Science Scheme of Work</h1>
@@ -152,6 +159,16 @@ import Base from '../layouts/Base.astro';
             <li><i class="fa-solid fa-circle-check"></i><span>Built-in assessment to track and evidence pupil progress.</span></li>
             <li><i class="fa-solid fa-circle-check"></i><span>Saves teachers hours of preparation every half term.</span></li>
           </ul>
+        </div>
+
+        <!-- reusable CMS block: campaign message (optional, CMS-managed) -->
+        <div class="cms-block">
+          <div>
+            <div class="cb-label">Campaign block</div>
+            <h4>Included in the Primary Package</h4>
+            <p>Get this scheme plus training, adviser time and every primary resource in one annual package.</p>
+          </div>
+          <a class="btn-ghost" href="#">Read more about our packages</a>
         </div>
 
         <div class="section">
@@ -194,6 +211,20 @@ import Base from '../layouts/Base.astro';
           </div>
         </div>
 
+        <!-- topical tags (customer-facing tagging framework) + save/share -->
+        <div class="topics-bar">
+          <div class="topic-tags">
+            <a class="topic-tag" href="/search-results">Science</a>
+            <a class="topic-tag" href="/search-results">Curriculum</a>
+            <a class="topic-tag" href="/search-results">Assessment</a>
+            <a class="topic-tag" href="/search-results">Primary</a>
+          </div>
+          <div class="actions">
+            <button aria-label="Save for later"><i class="fa-regular fa-bookmark"></i></button>
+            <button aria-label="Share"><i class="fa-solid fa-share-nodes"></i></button>
+          </div>
+        </div>
+
       </div>
 
       <!-- BOOKING PANEL -->
@@ -233,7 +264,7 @@ import Base from '../layouts/Base.astro';
         <div class="card-body">
           <div class="card-type">Downloadable</div>
           <div class="card-title">Primary Maths Scheme of Work</div>
-          <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-tag"></i> £120 + VAT</div></div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-file-lines"></i> PDF + editable</div><div class="line"><i class="fa-solid fa-tag"></i> £120 + VAT</div></div><div class="card-tags"><span class="topic-tag sm">Maths</span><span class="topic-tag sm">Curriculum</span></div>
         </div>
       </a>
       <a class="card" href="#">
@@ -241,7 +272,7 @@ import Base from '../layouts/Base.astro';
         <div class="card-body">
           <div class="card-type">Consultancy</div>
           <div class="card-title">Primary Science Curriculum Review</div>
-          <div class="card-meta"><div class="line"><i class="fa-solid fa-user-tie"></i> Expert adviser</div><div class="line"><i class="fa-solid fa-location-dot"></i> On-site or remote</div></div>
+          <div class="card-meta"><div class="line"><i class="fa-solid fa-user-tie"></i> Expert adviser</div><div class="line"><i class="fa-solid fa-location-dot"></i> On-site or remote</div></div><div class="card-tags"><span class="topic-tag sm">Science</span><span class="topic-tag sm">Consultancy</span></div>
         </div>
       </a>
       <a class="card" href="#">
@@ -249,7 +280,7 @@ import Base from '../layouts/Base.astro';
         <div class="card-body">
           <div class="card-type">Course</div>
           <div class="card-title">Leading Primary Science</div>
-          <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 12 Nov 2026</div><div class="line"><i class="fa-solid fa-location-dot"></i> Online</div></div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-calendar"></i> 12 Nov 2026</div><div class="line"><i class="fa-solid fa-location-dot"></i> Online</div></div><div class="card-tags"><span class="topic-tag sm">Science</span><span class="topic-tag sm">Leadership</span></div>
         </div>
       </a>
       <a class="card" href="#">
@@ -257,7 +288,7 @@ import Base from '../layouts/Base.astro';
         <div class="card-body">
           <div class="card-type">Blog</div>
           <div class="card-title">Five ways to bring working scientifically to life</div>
-          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 4 min read</div><div class="line"><i class="fa-regular fa-calendar"></i> 18 May 2026</div></div>
+          <div class="card-meta"><div class="line"><i class="fa-regular fa-clock"></i> 4 min read</div><div class="line"><i class="fa-regular fa-calendar"></i> 18 May 2026</div></div><div class="card-tags"><span class="topic-tag sm">Science</span><span class="topic-tag sm">Curriculum</span></div>
         </div>
       </a>
     </div>

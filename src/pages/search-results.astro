@@ -6,30 +6,80 @@ import Base from '../layouts/Base.astro';
 <style is:global>
 /* ---------- Search Results (page-specific) ---------- */
   .results-hero { background: linear-gradient(135deg, var(--pink-soft) 0%, var(--lavender-soft) 45%, var(--cyan-soft) 100%); padding: 40px 0 44px; }
-  .results-hero h1 { font-size: 30px; color: var(--purple); margin-bottom: 18px; }
+  .results-hero h1 { font-size: 30px; color: var(--purple); }
   .results-hero h1 span { color: var(--ink); }
-  .big-search { background: #fff; border-radius: 16px; padding: 8px 8px 8px 22px; display: flex; align-items: center; gap: 12px; max-width: 720px; box-shadow: 0 16px 40px rgba(65,0,140,0.12); }
-  .big-search .ic { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--purple); position: relative; flex-shrink: 0; }
-  .big-search .ic::after { content: ""; position: absolute; width: 10px; height: 2.5px; background: var(--purple); bottom: -3px; right: -5px; transform: rotate(45deg); }
-  .big-search input { flex: 1; border: 0; outline: 0; font-family: var(--sans); font-size: 16px; color: var(--ink); background: transparent; }
-  .big-search button { background: var(--purple); color: #fff; border: 0; border-radius: 12px; padding: 14px 28px; font-family: var(--sans); font-weight: 600; font-size: 15px; cursor: pointer; }
 
-  .results-layout { display: grid; grid-template-columns: 264px 1fr; gap: 40px; padding: 36px 0 90px; align-items: start; }
+  /* ---------- Filter results — matches the live Training & Events listing
+     pattern exactly: pill dropdowns w/ Reset Filter lists, Dates -> inline
+     start/end + calendar popover, Filters -> row of 3 further dropdowns,
+     popular tags, Applied Filters panel. ---------- */
+  .filter-area { padding: 30px 0 4px; }
+  .filter-area [hidden] { display: none !important; }
+  .fr-title { font-size: 22px; color: var(--ink); margin-bottom: 16px; }
+  .filter-bar { display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap; }
+  .fb-search { flex: 1 1 300px; max-width: 420px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 4px 4px 4px 20px; display: flex; align-items: center; gap: 10px; }
+  .fb-search input { flex: 1; min-width: 0; border: 0; outline: 0; font-family: var(--sans); font-size: 15px; color: var(--ink); background: transparent; }
+  .fb-search button { width: 42px; height: 42px; background: var(--purple); color: #fff; border: 0; border-radius: 50%; display: grid; place-items: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
+  .fb-dd-wrap { position: relative; }
+  .fb-dd { height: 100%; display: inline-flex; align-items: center; gap: 9px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 12px 20px; font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--purple); cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  .fb-dd:hover { border-color: var(--purple); }
+  .fb-dd i.lead { font-size: 13px; }
+  .fb-dd .caret { font-size: 11px; transition: transform 0.2s ease; }
+  .fb-dd.open { background: var(--purple); border-color: var(--purple); color: #fff; }
+  .fb-dd.open .caret { transform: rotate(180deg); }
+  .fb-panel { position: absolute; top: calc(100% + 6px); left: 0; z-index: 60; background: #fff; border-radius: 0 0 14px 14px; box-shadow: 0 24px 60px rgba(26,18,38,0.22); min-width: 100%; width: max-content; max-width: 320px; max-height: 340px; overflow-y: auto; padding-bottom: 6px; }
+  .fb-panel .reset-row { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid var(--line); padding: 14px 18px; font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--purple); cursor: pointer; }
+  .fb-panel .opt { display: block; width: 100%; text-align: left; background: #fff; border: 0; padding: 12px 18px; font-family: var(--sans); font-size: 14px; color: var(--ink); cursor: pointer; }
+  .fb-panel .opt:hover { background: var(--paper); }
+  .fb-panel .opt.selected { color: var(--purple); font-weight: 700; }
+  .fb-panel .opt.selected::after { content: "\2713"; margin-left: 8px; }
 
-  /* filters rail */
-  .filters { position: sticky; top: 20px; border: 1px solid var(--line); border-radius: 16px; padding: 8px 20px 20px; }
-  .filters-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .filters-head h3 { font-size: 16px; color: var(--ink); }
-  .filters-head a { font-size: 13px; color: var(--purple); font-weight: 600; }
-  .fgroup { border-bottom: 1px solid var(--line); padding: 16px 0; }
-  .fgroup:last-child { border-bottom: 0; }
-  .fgroup h4 { font-size: 14px; color: var(--ink); margin-bottom: 12px; }
-  .fopt { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--charcoal); padding: 5px 0; cursor: pointer; }
-  .fopt input { appearance: none; width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 5px; flex-shrink: 0; position: relative; cursor: pointer; transition: background-color 0.15s, border-color 0.15s; }
-  .fopt input:checked { background: var(--purple); border-color: var(--purple); }
-  .fopt input:checked::after { content: "\2713"; position: absolute; inset: 0; color: #fff; font-size: 12px; display: grid; place-items: center; }
-  .fopt .count { margin-left: auto; font-size: 12px; color: #9a96a6; }
-  .fopt:hover { color: var(--purple); }
+  /* expansion rows (Dates / Filters) */
+  .fx-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; position: relative; }
+  .fx-label { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .date-pill { background: #fff; border: 1px solid var(--purple); border-radius: 999px; padding: 10px 20px; font-family: var(--sans); font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer; }
+  .date-pill:hover { background: var(--lavender-soft); }
+  .fx-filters .fb-dd-wrap { flex: 1 1 240px; }
+  .fx-filters .fb-dd { width: 100%; justify-content: space-between; }
+
+  /* calendar popover */
+  .cal-pop { position: absolute; top: calc(100% + 10px); left: 0; z-index: 70; background: #fff; border-radius: 18px; box-shadow: 0 28px 70px rgba(26,18,38,0.25); padding: 18px 20px 20px; width: 560px; max-width: 92vw; }
+  .cal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cal-today { background: var(--lavender-soft); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; }
+  .cal-top .right { display: flex; align-items: center; gap: 12px; }
+  .cal-clear { background: none; border: 0; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: underline; cursor: pointer; }
+  .cal-x { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 11px; cursor: pointer; display: grid; place-items: center; }
+  .cal-months { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; position: relative; }
+  .cal-nav { position: absolute; top: 4px; background: none; border: 0; color: var(--charcoal); font-size: 14px; cursor: pointer; padding: 4px 8px; }
+  .cal-nav.prev { left: -6px; }
+  .cal-nav.next { right: -6px; }
+  .cal-m h6 { text-align: center; font-size: 16px; font-weight: 700; color: var(--purple); margin-bottom: 10px; font-family: var(--sans); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-grid .dow { text-align: center; font-size: 12px; font-weight: 700; color: var(--purple); padding: 4px 0; }
+  .cal-grid .day { text-align: center; font-size: 13px; color: var(--ink); padding: 7px 0; border-radius: 8px; cursor: pointer; background: none; border: 0; font-family: var(--sans); }
+  .cal-grid .day:hover { background: var(--lavender-soft); }
+  .cal-grid .day.sel { background: var(--purple); color: #fff; font-weight: 700; }
+  .cal-grid .blank { pointer-events: none; }
+
+  .popular-tags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .popular-tags .lbl { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .ptag { cursor: pointer; font-family: var(--sans); }
+  .ptag.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+  /* applied filters */
+  .applied { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-top: 18px; }
+  .ap-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .ap-head span { font-size: 14px; font-weight: 700; color: var(--purple); }
+  .ap-clear { background: none; border: 0; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--purple); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .ap-clear:hover { text-decoration: underline; }
+  .ap-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .ap-group:last-child { margin-bottom: 0; }
+  .ap-k { font-size: 13px; font-weight: 600; color: var(--purple); }
+  .ap-chip { display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 13px; font-weight: 500; color: var(--ink); }
+  .ap-chip button { border: 0; background: none; color: var(--ink); cursor: pointer; font-size: 11px; padding: 0 4px; }
+  .ap-chip button:hover { color: var(--purple); }
+
+  .results-wrap { padding: 26px 0 90px; }
 
   /* results column */
   .results-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 16px; flex-wrap: wrap; }
@@ -38,10 +88,6 @@ import Base from '../layouts/Base.astro';
   .sort { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--charcoal); }
   .sort select { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; background: #fff; cursor: pointer; }
 
-  .active-filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 22px; }
-  .chip { display: inline-flex; align-items: center; gap: 8px; background: var(--lavender-soft); color: var(--purple); border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 13px; font-weight: 600; }
-  .chip button { border: 0; background: rgba(65,0,140,0.12); color: var(--purple); width: 18px; height: 18px; border-radius: 50%; cursor: pointer; font-size: 11px; display: grid; place-items: center; }
-  .active-filters .clear { font-size: 13px; color: var(--charcoal); text-decoration: underline; margin-left: 4px; }
 
   .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
   /* card CTA row */
@@ -73,71 +119,143 @@ import Base from '../layouts/Base.astro';
 <section class="results-hero">
   <div class="container">
     <h1>Results for <span>“Safeguarding”</span></h1>
-    <form class="big-search" onsubmit="return false">
-      <span class="ic"></span>
-      <input value="Safeguarding">
-      <button type="submit">Search</button>
-    </form>
   </div>
 </section>
 
 <div class="container">
-  <div class="results-layout">
+  <!-- FILTER RESULTS — matches the live Training & Events listing pattern -->
+  <div class="filter-area">
+    <h3 class="fr-title">Filter results</h3>
+    <div class="filter-bar">
+      <form class="fb-search" onsubmit="return false">
+        <input value="Safeguarding" aria-label="Search">
+        <button type="submit" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
 
-    <!-- FILTERS RAIL -->
-    <aside class="filters">
-      <div class="filters-head"><h3>Filters</h3><a href="#">Clear all</a></div>
-      <div class="fgroup">
-        <h4>Content type</h4>
-        <label class="fopt"><input type="checkbox" checked> Training &amp; Events <span class="count">21</span></label>
-        <label class="fopt"><input type="checkbox"> Products &amp; Resources <span class="count">12</span></label>
-        <label class="fopt"><input type="checkbox"> Services <span class="count">6</span></label>
-        <label class="fopt"><input type="checkbox"> Blogs <span class="count">5</span></label>
-        <label class="fopt"><input type="checkbox"> Knowledge Hub <span class="count">4</span></label>
+      <div class="fb-dd-wrap" data-facet="Content Type">
+        <button class="fb-dd" type="button">Content Type <i class="fa-solid fa-chevron-down caret"></i></button>
+        <div class="fb-panel" hidden>
+          <button class="reset-row" type="button"><i class="fa-solid fa-rotate-left"></i> Reset Filter</button>
+        <button class="opt selected" type="button">Training & Events</button>
+        <button class="opt" type="button">Products & Resources</button>
+        <button class="opt" type="button">Services</button>
+        <button class="opt" type="button">Blogs</button>
+        <button class="opt" type="button">Knowledge Hub</button>
+        </div>
       </div>
-      <div class="fgroup">
-        <h4>Subject</h4>
-        <label class="fopt"><input type="checkbox" checked> Safeguarding <span class="count">23</span></label>
-        <label class="fopt"><input type="checkbox"> Behaviour <span class="count">8</span></label>
-        <label class="fopt"><input type="checkbox"> SEND <span class="count">7</span></label>
-        <label class="fopt"><input type="checkbox"> Leadership <span class="count">6</span></label>
-        <label class="fopt"><input type="checkbox"> Attendance <span class="count">4</span></label>
-      </div>
-      <div class="fgroup">
-        <h4>Audience</h4>
-        <label class="fopt"><input type="checkbox"> Early Years <span class="count">9</span></label>
-        <label class="fopt"><input type="checkbox"> Primary <span class="count">18</span></label>
-        <label class="fopt"><input type="checkbox"> Secondary <span class="count">14</span></label>
-        <label class="fopt"><input type="checkbox"> Governors <span class="count">7</span></label>
-      </div>
-      <div class="fgroup">
-        <h4>Delivery method</h4>
-        <label class="fopt"><input type="checkbox" checked> Online <span class="count">16</span></label>
-        <label class="fopt"><input type="checkbox"> Face-to-face <span class="count">12</span></label>
-        <label class="fopt"><input type="checkbox"> E-learning <span class="count">8</span></label>
-      </div>
-      <div class="fgroup">
-        <h4>Topic</h4>
-        <label class="fopt"><input type="checkbox"> Child protection <span class="count">11</span></label>
-        <label class="fopt"><input type="checkbox"> Safer recruitment <span class="count">6</span></label>
-        <label class="fopt"><input type="checkbox"> Online safety <span class="count">5</span></label>
-        <label class="fopt"><input type="checkbox"> Designated leads <span class="count">4</span></label>
-      </div>
-    </aside>
 
-    <!-- RESULTS -->
+      <div class="fb-dd-wrap" data-facet="Delivery Method">
+        <button class="fb-dd" type="button">Delivery Method <i class="fa-solid fa-chevron-down caret"></i></button>
+        <div class="fb-panel" hidden>
+          <button class="reset-row" type="button"><i class="fa-solid fa-rotate-left"></i> Reset Filter</button>
+        <button class="opt" type="button">Conferences & Events</button>
+        <button class="opt" type="button">E-Learning</button>
+        <button class="opt" type="button">Face to face Training</button>
+        <button class="opt selected" type="button">Live Online Training</button>
+        <button class="opt" type="button">Recorded Webinar</button>
+        </div>
+      </div>
+
+      <button class="fb-dd" type="button" id="dates-toggle"><i class="fa-regular fa-calendar lead"></i> Dates <i class="fa-solid fa-chevron-down caret"></i></button>
+      <button class="fb-dd" type="button" id="filters-toggle"><i class="fa-solid fa-filter lead"></i> Filters <i class="fa-solid fa-chevron-down caret"></i></button>
+    </div>
+
+    <!-- Dates expansion: start/end pills + calendar popover -->
+    <div class="fx-row" id="dates-row" hidden>
+      <span class="fx-label">Start:</span>
+      <button class="date-pill" type="button" data-target="start">Select start date</button>
+      <span class="fx-label">End:</span>
+      <button class="date-pill" type="button" data-target="end">Select end date</button>
+      <div class="cal-pop" id="cal-pop" hidden>
+        <div class="cal-top">
+          <button class="cal-today" type="button">Today</button>
+          <div class="right">
+            <button class="cal-clear" type="button">Clear</button>
+            <button class="cal-x" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+        <div class="cal-months">
+          <button class="cal-nav prev" type="button" aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="cal-nav next" type="button" aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button>
+          <div class="cal-m" id="cal-m0"></div>
+          <div class="cal-m" id="cal-m1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters expansion: three further dropdowns -->
+    <div class="fx-row fx-filters" id="filters-row" hidden>
+      <div class="fb-dd-wrap" data-facet="Customer Type">
+        <button class="fb-dd" type="button">Customer Type <i class="fa-solid fa-chevron-down caret"></i></button>
+        <div class="fb-panel" hidden>
+          <button class="reset-row" type="button"><i class="fa-solid fa-rotate-left"></i> Reset Filter</button>
+        <button class="opt" type="button">Academy & MAT</button>
+        <button class="opt" type="button">Business</button>
+        <button class="opt" type="button">College & Higher Education</button>
+        <button class="opt" type="button">Council / Local Authority</button>
+        <button class="opt" type="button">Early Years & Childcare</button>
+        <button class="opt" type="button">Foster Carer & Supported Homes</button>
+        <button class="opt" type="button">International School</button>
+        <button class="opt" type="button">Other</button>
+        </div>
+      </div>
+      <div class="fb-dd-wrap" data-facet="Audience">
+        <button class="fb-dd" type="button">Audience <i class="fa-solid fa-chevron-down caret"></i></button>
+        <div class="fb-panel" hidden>
+          <button class="reset-row" type="button"><i class="fa-solid fa-rotate-left"></i> Reset Filter</button>
+        <button class="opt" type="button">Administration & Finance</button>
+        <button class="opt" type="button">All Teaching Staff</button>
+        <button class="opt" type="button">Careers Leads</button>
+        <button class="opt" type="button">Childminder</button>
+        <button class="opt" type="button">Designated Safeguarding Leads</button>
+        <button class="opt" type="button">Governors</button>
+        <button class="opt" type="button">Head Teacher</button>
+        <button class="opt" type="button">School support staff</button>
+        </div>
+      </div>
+      <div class="fb-dd-wrap" data-facet="Product Topic">
+        <button class="fb-dd" type="button">Product Topic <i class="fa-solid fa-chevron-down caret"></i></button>
+        <div class="fb-panel" hidden>
+          <button class="reset-row" type="button"><i class="fa-solid fa-rotate-left"></i> Reset Filter</button>
+        <button class="opt" type="button">Anxiety</button>
+        <button class="opt" type="button">Assessment</button>
+        <button class="opt" type="button">Attendance</button>
+        <button class="opt" type="button">Behaviour</button>
+        <button class="opt" type="button">Curriculum</button>
+        <button class="opt" type="button">Ofsted</button>
+        <button class="opt" type="button">Safeguarding</button>
+        <button class="opt" type="button">SEND</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="popular-tags">
+      <span class="lbl">Popular tags:</span>
+      <button class="topic-tag ptag active" type="button">Safeguarding</button>
+      <button class="topic-tag ptag" type="button">EYFS</button>
+      <button class="topic-tag ptag" type="button">SEND</button>
+      <button class="topic-tag ptag" type="button">Leadership &amp; Management</button>
+      <button class="topic-tag ptag" type="button">Ofsted</button>
+      <button class="topic-tag ptag" type="button">Attendance</button>
+    </div>
+
+    <!-- Applied filters -->
+    <div class="applied" id="applied-panel">
+      <div class="ap-head">
+        <span>Applied Filters:</span>
+        <button class="ap-clear" type="button"><i class="fa-solid fa-xmark"></i> Clear all</button>
+      </div>
+      <div id="ap-groups"></div>
+    </div>
+  </div>
+
+  <div class="results-wrap">
     <div class="results-col">
       <div class="results-toolbar">
         <div class="results-count"><strong>48 results</strong> for “Safeguarding”</div>
         <div class="sort"><span>Sort by</span>
           <select><option>Relevance</option><option>Newest</option><option>A–Z</option><option>Price: low to high</option></select>
         </div>
-      </div>
-
-      <div class="active-filters">
-        <span class="chip">Training &amp; Events <button aria-label="Remove">✕</button></span>
-        <span class="chip">Online <button aria-label="Remove">✕</button></span>
-        <a class="clear" href="#">Clear all</a>
       </div>
 
       <div class="results-grid">
@@ -307,5 +425,157 @@ import Base from '../layouts/Base.astro';
 </section>
 
 <!-- ================= FOOTER (shared) ================= -->
+
+<script is:inline>
+// Filter results — mirrors the live T&E listing behaviour (mock, front-end only):
+// dropdowns w/ Reset Filter lists, Dates/Filters expansion rows, two-month
+// calendar popover, popular-tag toggles, grouped Applied Filters panel.
+  (function() {
+    const state = {};
+    const facetOrder = ['Content Type', 'Delivery Method', 'Dates', 'Customer Type', 'Audience', 'Product Topic', 'Tags'];
+
+    /* dropdown panels */
+    const wraps = Array.from(document.querySelectorAll('.fb-dd-wrap'));
+    const closePanels = () => wraps.forEach(w => { w.querySelector('.fb-dd').classList.remove('open'); w.querySelector('.fb-panel').hidden = true; });
+    wraps.forEach(w => {
+      const btn = w.querySelector('.fb-dd');
+      const panel = w.querySelector('.fb-panel');
+      const facet = w.dataset.facet;
+      state[facet] = Array.from(panel.querySelectorAll('.opt.selected')).map(o => o.textContent.trim());
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wasOpen = btn.classList.contains('open');
+        closePanels(); calClose();
+        if (!wasOpen) { btn.classList.add('open'); panel.hidden = false; }
+      });
+      panel.addEventListener('click', (e) => e.stopPropagation());
+      panel.querySelectorAll('.opt').forEach(o => o.addEventListener('click', () => {
+        o.classList.toggle('selected'); sync(facet, panel);
+      }));
+      panel.querySelector('.reset-row').addEventListener('click', () => {
+        panel.querySelectorAll('.opt.selected').forEach(o => o.classList.remove('selected')); sync(facet, panel);
+      });
+    });
+    const sync = (facet, panel) => { state[facet] = Array.from(panel.querySelectorAll('.opt.selected')).map(o => o.textContent.trim()); render(); };
+
+    /* Dates / Filters expansion rows */
+    const rowToggle = (btnId, rowId) => {
+      const btn = document.getElementById(btnId), row = document.getElementById(rowId);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation(); closePanels(); calClose();
+        const open = btn.classList.toggle('open');
+        row.hidden = !open;
+      });
+    };
+    rowToggle('dates-toggle', 'dates-row');
+    rowToggle('filters-toggle', 'filters-row');
+
+    /* popular tags */
+    state['Tags'] = [];
+    const ptags = Array.from(document.querySelectorAll('.ptag'));
+    const syncTags = () => { state['Tags'] = ptags.filter(t => t.classList.contains('active')).map(t => t.textContent.trim()); render(); };
+    ptags.forEach(t => t.addEventListener('click', () => { t.classList.toggle('active'); syncTags(); }));
+    state['Tags'] = ptags.filter(t => t.classList.contains('active')).map(t => t.textContent.trim());
+
+    /* calendar */
+    const pop = document.getElementById('cal-pop');
+    const pills = Array.from(document.querySelectorAll('.date-pill'));
+    const dates = { start: null, end: null };
+    let target = 'start';
+    let mY = 2026, mM = 6; // July 2026 to match mock content
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const fmt = (d) => d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0,3) + ' ' + d.getFullYear();
+    const calClose = () => { pop.hidden = true; };
+    const renderMonth = (el, y, m) => {
+      const first = new Date(y, m, 1).getDay(); // Sunday-first like the live site
+      const days = new Date(y, m + 1, 0).getDate();
+      let html = '<h6>' + MONTHS[m] + ' ' + y + '</h6><div class="cal-grid">';
+      'SMTWTFS'.split('').forEach(d => html += '<span class="dow">' + d + '</span>');
+      for (let i = 0; i < first; i++) html += '<span class="day blank"></span>';
+      for (let d = 1; d <= days; d++) {
+        const sel = (dates.start && dates.start.getFullYear() === y && dates.start.getMonth() === m && dates.start.getDate() === d) ||
+                    (dates.end && dates.end.getFullYear() === y && dates.end.getMonth() === m && dates.end.getDate() === d);
+        html += '<button class="day' + (sel ? ' sel' : '') + '" data-d="' + d + '" data-m="' + m + '" data-y="' + y + '" type="button">' + d + '</button>';
+      }
+      el.innerHTML = html + '</div>';
+      el.querySelectorAll('.day:not(.blank)').forEach(b => b.addEventListener('click', () => {
+        pick(new Date(+b.dataset.y, +b.dataset.m, +b.dataset.d));
+      }));
+    };
+    const renderCal = () => {
+      const n = new Date(mY, mM + 1, 1);
+      renderMonth(document.getElementById('cal-m0'), mY, mM);
+      renderMonth(document.getElementById('cal-m1'), n.getFullYear(), n.getMonth());
+    };
+    const syncDates = () => {
+      const vals = [];
+      if (dates.start) vals.push('From ' + fmt(dates.start));
+      if (dates.end) vals.push('To ' + fmt(dates.end));
+      state['Dates'] = vals; render();
+    };
+    const pick = (d) => {
+      dates[target] = d;
+      pills.forEach(p => { if (p.dataset.target === target) p.textContent = fmt(d); });
+      syncDates(); renderCal(); calClose();
+    };
+    const clearDates = () => {
+      dates.start = dates.end = null;
+      pills.forEach(p => { p.textContent = p.dataset.target === 'start' ? 'Select start date' : 'Select end date'; });
+      syncDates(); renderCal();
+    };
+    pills.forEach(p => p.addEventListener('click', (e) => {
+      e.stopPropagation(); closePanels();
+      target = p.dataset.target;
+      pop.hidden = false; renderCal();
+    }));
+    pop.addEventListener('click', (e) => e.stopPropagation());
+    pop.querySelector('.cal-today').addEventListener('click', () => pick(new Date()));
+    pop.querySelector('.cal-clear').addEventListener('click', clearDates);
+    pop.querySelector('.cal-x').addEventListener('click', calClose);
+    pop.querySelector('.cal-nav.prev').addEventListener('click', () => { mM--; if (mM < 0) { mM = 11; mY--; } renderCal(); });
+    pop.querySelector('.cal-nav.next').addEventListener('click', () => { mM++; if (mM > 11) { mM = 0; mY++; } renderCal(); });
+
+    /* applied filters panel */
+    const panelEl = document.getElementById('applied-panel');
+    const groupsEl = document.getElementById('ap-groups');
+    function render() {
+      const entries = facetOrder.filter(k => (state[k] || []).length);
+      panelEl.hidden = !entries.length;
+      groupsEl.innerHTML = entries.map(k =>
+        '<div class="ap-group"><span class="ap-k">' + k + ':</span>' +
+        state[k].map(v => '<span class="ap-chip">' + v + ' <button type="button" data-facet="' + k + '" data-val="' + v + '" aria-label="Remove">✕</button></span>').join('') +
+        '</div>').join('');
+      groupsEl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => remove(b.dataset.facet, b.dataset.val)));
+    }
+    function remove(facet, val) {
+      if (facet === 'Tags') {
+        ptags.forEach(t => { if (t.textContent.trim() === val) t.classList.remove('active'); });
+        syncTags();
+      } else if (facet === 'Dates') {
+        if (val.indexOf('From') === 0) { dates.start = null; } else { dates.end = null; }
+        pills.forEach(p => {
+          if (p.dataset.target === 'start' && !dates.start) p.textContent = 'Select start date';
+          if (p.dataset.target === 'end' && !dates.end) p.textContent = 'Select end date';
+        });
+        syncDates(); renderCal();
+      } else {
+        const wrap = wraps.find(w => w.dataset.facet === facet);
+        wrap.querySelectorAll('.opt.selected').forEach(o => { if (o.textContent.trim() === val) o.classList.remove('selected'); });
+        sync(facet, wrap.querySelector('.fb-panel'));
+      }
+    }
+    document.querySelector('.ap-clear').addEventListener('click', () => {
+      wraps.forEach(w => { w.querySelectorAll('.opt.selected').forEach(o => o.classList.remove('selected')); state[w.dataset.facet] = []; });
+      ptags.forEach(t => t.classList.remove('active')); state['Tags'] = [];
+      dates.start = dates.end = null;
+      pills.forEach(p => { p.textContent = p.dataset.target === 'start' ? 'Select start date' : 'Select end date'; });
+      state['Dates'] = []; render(); renderCal();
+    });
+
+    document.addEventListener('click', () => { closePanels(); calClose(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closePanels(); calClose(); } });
+    render();
+  })();
+</script>
 
 </Base>

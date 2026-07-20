@@ -45,9 +45,17 @@ src/
 public/                    ← static assets (referenced as /tep-logo.png etc.)
 ```
 
-**Pages:** `/` (home), `/training-product`, `/generic-product`, `/search-results`,
-`/search-results-empty` (no-results state), `/global-search` (legacy static mock of the
-open-search state — the live search overlay now lives in `Header.astro`).
+**Pages:** `/` (home), `/training-product` (typical density), `/training-product-rich`
+(high-density template demo — same template, optional sections populated), `/generic-product`,
+`/search-results`, `/search-results-empty` (no-results state), `/global-search` (legacy static
+mock of the open-search state — the live search overlay now lives in `Header.astro`).
+
+**16.07 feedback round (applied):** homepage Featured section sits above the audience
+accordion; compact hero; rotating testimonial; header/nav divider removed. Training pages
+show a single event instance (no date picker — TEP rule: one event per page), topical tags,
+expanded trainer, reduced yellow. Search results filters mirror the live Training & Events
+listing pattern (search + Content Type + Delivery Method + Dates + Filters dropdowns,
+popular tags row) — Content Type added prominently per Loop's decision.
 
 ### Conventions (follow these — the migration relies on them)
 - Page-specific CSS goes in **`<style is:global>`** (NOT scoped) so it can target the
